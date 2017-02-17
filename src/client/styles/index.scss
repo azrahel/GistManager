@@ -1,0 +1,40 @@
+@import 'variables.scss';
+
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: lighter;
+  font-size: 15px;
+  background: ghostwhite;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $blue;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
+span {
+  font-size: 15px !important;
+}
+
+.appContainer {
+  max-width: 1280px;
+  left: 0;
+  right: 0;
+  padding: 0;
+  margin: 0 auto;
+
+  .appBody {
+    padding-left: 35px;
+    padding-right: 35px;
+  }  
+}
+
+
+
