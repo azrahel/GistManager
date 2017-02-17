@@ -2,13 +2,9 @@ import { observable, computed, action, extendObservable } from 'mobx';
 import 'whatwg-fetch'
 
 class UIStore {
-  @observable username
-  @observable password
-
   @observable isLogging = false
   @observable isLoggedIn = localStorage.getItem('ghtoken') ? true : false
   @observable error
-  
 
   handleGithubResponse(response) {
     if(response.errors && localStorage.getItem('ghtoken')) {
@@ -54,6 +50,10 @@ class UIStore {
 
   @computed get loggedIn() {
     return this.isLoggedIn
+  }
+
+  @action setField(name, value) {
+    this[name] = value
   }
 }
 

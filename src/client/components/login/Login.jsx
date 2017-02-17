@@ -1,34 +1,33 @@
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
+import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { browserHistory } from 'react-router'
 
-export default @inject('UIStore') @observer class Login extends Component {
+import style from './style.scss'
+import CircularProgress from 'material-ui/CircularProgress'
+import Snackbar from 'material-ui/Snackbar';
+import LoginForm from './form/Form'
+
+export default @inject('authStore') @observer class Login extends Component {
   constructor(props) {
     super(props)
-
-    this.store = this.props.UIStore
-  }
-
-  login() {
-    this.store.login('usrename', 'password').then(() => {
-      if(this.store.isLoggedIn) {
-        browserHistory.push('/dashboard')
-      }
-    })
   }
 
   render() {
     return (
-      <div>
-        <div onClick = { () => { this.login() } }>
-          !! LOGIN !!
-          { 
-            // INPUTS HERE
-          }
-          { this.store.error }
-        </div>
+      <div className = { style.loginBoxContainer }>
+        {
+          this.props.authStore.isLogging
+            ? <CircularProgress/>
+            : <LoginForm />
+        }
+        <Snackbar
+          open              = { this.props.authStore.error.length > 0 }
+          message           = { this.props.authStore.error }
+          autoHideDuration  = { 4000 }
+          onRequestClose    = { () => { this.props.authStore.setError('') } }
+        />
       </div>
-    );
+    )
   }
 }
 

@@ -1,28 +1,18 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react';
-
-import AppBar from 'components/appBar/AppBar'
-
-import style from 'styles/index.scss';
-
 import Devtools from 'mobx-react-devtools'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-export default @inject('UIStore') @observer class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.store = this.props.UIStore
-  }
-
+export default class App extends Component {
   render() {
     return (
-      <div className = { style.appContainer }>
-        <Devtools/>
-        <AppBar/>
-        <div className = { style.appBody }>
-          { this.props.children }
+      <MuiThemeProvider>
+        <div>
+          <Devtools/>
+          <div>
+            { this.props.children }
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     )
   }
 }

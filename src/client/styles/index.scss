@@ -1,7 +1,7 @@
 @import 'variables.scss';
 
 body {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: lighter;
   font-size: 15px;
   background: ghostwhite;
@@ -17,10 +17,6 @@ a {
     font-weight: bold;
     cursor: pointer;
   }
-}
-
-span {
-  font-size: 15px !important;
 }
 
 .appContainer {

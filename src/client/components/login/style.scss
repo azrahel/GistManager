@@ -1,0 +1,50 @@
+@import '~styles/variables.scss';
+
+.loginBoxContainer {
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  position: relative;
+  top: 200px;
+  text-align: center;
+
+
+  //I know !important is shitty but official documentation states 
+  //to use it like so and hence below modificators
+  //http://www.material-ui.com/#/customization/styles (overriding with CSS Styles section)
+  .loginInput,
+  .passwordInput {
+    width: 300px !important;
+    display: block !important;
+    position: relative !important;
+    margin: 0 auto !important;
+    display: block !important;
+    margin-top: 10px !important;
+  }
+
+  .loginInput {
+    margin-top: 20px !important;
+  }
+
+  .githubIcon {
+    width: 60px;
+    height: 60px;
+    background: url('/src/client/assets/images/gh-mark.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+    margin-bottom: 20px;
+  }
+
+  .loginButton {
+    color: $white !important;
+    background-color: $green !important;
+    margin-top: 20px !important;
+
+    &:hover {
+      background-color: darken($green, 15) !important;
+    }
+  }
+}
+

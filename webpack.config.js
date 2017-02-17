@@ -71,9 +71,10 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       components: path.resolve('./src/client/components'),
-      lib: path.resolve('./src/client/lib'),
+      stores: path.resolve('./src/client/stores'),
       styles: path.resolve('./src/client/styles'),
       routes: path.resolve('./src/client/routes'),
+      assets: path.resolve('./src/client/assets')
     }
   }
 };
