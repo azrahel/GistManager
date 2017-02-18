@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 
-import AppBar from 'components/appBar/AppBar'
+import AppBar       from 'components/appBar/AppBar'
+import Menu         from 'components/menu/Menu'
+import GistsList    from 'components/gistsList/GistsList'
+import GistDetails  from 'components/gistDetails/GistDetails'
 
 export default class Dashboard extends Component {
-  componentDidMount() {
-    let { children, params } = this.props
-  }
-
   render() {
     return (
       <div>
         <AppBar/>
-        DASHBOARD!!!!!!!!!
+        <Menu/>
+        <GistsList/>
+        <GistDetails/>
       </div>
     );
   }

@@ -20,7 +20,7 @@ export default @inject('authStore') @observer class AppBar extends Component {
   render() {
     // console.log(mobx.toJS(this.props.stores.gistsStore.gists))
     return (
-        <div type = 'horizontal'>
+        <div className = { style.appBar }>
           {
             this.props.authStore.isLoggedIn
               ? <div onClick = { () => { this.logout() } }>logout</div>

@@ -1,14 +1,9 @@
 @import '../../styles/variables';
 
 .appBar {
-  height: 60px !important;
+  min-height: 50px !important;
   padding-left: 1.9rem;
   background: $blue;
-
-  .interfaceTypeChooser {
-    display: inline-block;
-    height: 100%;
-  }
 
   nav {
     left: 0;
