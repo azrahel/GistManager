@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
+import { action, observer, inject } from 'mobx-react'
 
 import style from './style.scss'
 import CircularProgress from 'material-ui/CircularProgress'
 
-export default @inject('gistsStore') @observer class GistsList extends Component {
+export default @inject('authStore', 'gistsStore') @observer class GistsList extends Component {
   constructor(props) {
     super(props)
   }
@@ -12,12 +12,8 @@ export default @inject('gistsStore') @observer class GistsList extends Component
   render() {
     return (
       <div className = { style.gistsListContainer }>
-        GISTS LIST
+        { ' LTNGTH:' + this.props.gistsStore.gists.slice().length}
       </div>
     )
   }
 }
-
-
-
-

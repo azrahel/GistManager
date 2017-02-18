@@ -5,7 +5,7 @@ export default function (stores) {
       path: '/',
       component: require('components/App').default,
       onEnter: (nextState, replace, callback) => {
-        if(stores.UIStore.loggedIn) {
+        if(stores.authStore.isLoggedIn) {
           if(nextState.location.pathname !== '/dashboard') {
             replace('/dashboard') 
           }

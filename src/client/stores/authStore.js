@@ -1,23 +1,26 @@
 import { observable, computed, action, useStrict } from 'mobx'
 import 'whatwg-fetch'
+import GistsStore from './gistsStore'
+import UserStore from './userStore'
+import singleton from 'singleton'
 
 useStrict(true)
 
-class AuthStore {
+class AuthStore extends singleton {
   @observable isLogging = false
-  @observable isLoggedIn = localStorage.getItem('ghtoken') ? true : false
+  @observable isLoggedIn = false
   @observable error = ''
 
-  handleGithubResponse(response) {
-    if (response.errors && localStorage.getItem('ghtoken')) {
+  constructor() {
+    super()
+    
+    this.setLoggedIn(UserStore.token ? true : false)
+  }
+
+  handleGithubResponse(response) {  
+    if (response.token) {
       this.setLoggedIn(true)
-    } else if (response.token) {
-      this.setLoggedIn(true, response.token)
-      
-      setTimeout(
-        this.toggleLoggingState(),
-        500
-      )
+      UserStore.fetchUserData(response.token)
     } else if (response.message) {
       this.toggleLoggingState()
       this.setError(response.message)
@@ -36,8 +39,6 @@ class AuthStore {
         'Accept': 'application/json',
         Authorization: 'Basic ' + btoa(username + ':' + password)
       },
-      //Math.random so I can POST how many requests I like 
-      //without getting 'already_exists' error from GH
       body: JSON.stringify({ note: Math.random() }) 
     }
 
@@ -50,7 +51,7 @@ class AuthStore {
     })
   }
 
-  @action logout() {
+  logout() {
      this.setLoggedIn(false)
   }
 
@@ -58,13 +59,14 @@ class AuthStore {
     this.isLogging = !this.isLogging
   }
 
-  @action setLoggedIn(state, token) {
+  @action setLoggedIn(state) {
     if(state) {
       this.isLoggedIn = state
-      
-      if(token) {
-        localStorage.setItem('ghtoken', token)  
-      }
+
+      setTimeout(
+        this.toggleLoggingState(),
+        500
+      )
     } else {
       this.isLoggedIn = state
       localStorage.removeItem('ghtoken')
@@ -76,4 +78,4 @@ class AuthStore {
   }
 }
 
-export default AuthStore
+export default AuthStore.get()

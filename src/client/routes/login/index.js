@@ -2,7 +2,6 @@ module.exports = {
   path: '/login',
 
   onEnter(nextState, cb) {
-    console.log('entering login page')
   },
 
   getComponent(nextState, cb) {

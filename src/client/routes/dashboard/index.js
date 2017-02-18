@@ -8,6 +8,5 @@ module.exports = {
   },
 
   onEnter(nextState, cb) {
-    console.log('entering dashboard!')
   }
 }

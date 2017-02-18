@@ -3,17 +3,17 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'mobx-react'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
-import GistsStore from './stores/gistsStore'
-import UIStore from './stores/UIStore'
-import AuthStore from './stores/authStore'
-import UserStore from './stores/userStore'
+import userStore from './stores/userStore'
+import gistsStore from './stores/gistsStore'
+import authStore from './stores/authStore'
+
 import rootRoute from './routes/root'
 
-const authStore   = new AuthStore();
-const userStore   = new UserStore();
-const gistsStore  = new GistsStore();
+// const authStore   = new AuthStore();
+// const userStore   = new UserStore();
+// const gistsStore  = new GistsStore();
 
-const stores = { authStore, userStore, gistsStore, UIStore };
+const stores = { authStore, userStore, gistsStore };
 
 ReactDOM.render(
   <Provider { ...stores }>

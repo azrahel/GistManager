@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
 
 import AppBar       from 'components/appBar/AppBar'
 import Menu         from 'components/menu/Menu'
