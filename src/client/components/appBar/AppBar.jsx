@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import mobx from 'mobx'
 import { observer, inject } from 'mobx-react'
-
-import AppBar from 'material-ui/AppBar'
+import FlatButton from 'material-ui/FlatButton';
 
 import style from './style.scss'
 
-export default @inject('authStore') @observer class AppBar extends Component {
+export default @inject('userStore','authStore') @observer class AppBar extends Component {
   constructor(props) {
     super(props)
   }
@@ -18,15 +17,25 @@ export default @inject('authStore') @observer class AppBar extends Component {
   }
 
   render() {
-    // console.log(mobx.toJS(this.props.stores.gistsStore.gists))
     return (
-        <div className = { style.appBar }>
-          {
-            this.props.authStore.isLoggedIn
-              ? <div onClick = { () => { this.logout() } }>logout</div>
-              : null
-          }
-        </div>
+      this.props.authStore.isLoggedIn 
+        ? <div className = { style.appBar }>
+            <span className = { style.appName }>
+              Super Gist Manager
+            </span>
+            <FlatButton
+              label = 'sign out'
+              className = { style.logoutButton }
+              onClick = { () => { this.logout() } }>
+            </FlatButton>
+            <div className = { style.accountLink }>
+              <div className = { style.githubIcon }/>
+              <span className = { style.username }>
+                { this.props.userStore.username } 
+              </span>
+            </div>
+          </div>
+        : null
     )
   }
 }

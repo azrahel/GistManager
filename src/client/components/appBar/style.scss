@@ -1,35 +1,49 @@
 @import '../../styles/variables';
+@import '~styles/mixins.scss';
 
 .appBar {
-  min-height: 50px !important;
-  padding-left: 1.9rem;
+  min-height: 50px;
+  padding: 4px 10px;
+  box-sizing: border-box;
   background: $blue;
 
-  nav {
-    left: 0;
+  .appName {
     float: left;
-    padding-left: 0;
-    padding-top: 0.2rem;
+    color: $white;
+    font-size: 20px;
+    margin-top: 7px;
+  }
 
-    a {
-      color: $white !important;
-      opacity: 1 !important;
-      text-decoration: none !important;
-      font-size: 25px;
+  .accountLink {
+    float: right;
+    width: auto;
+    margin-top: 10px;
+    margin-right: 10px;
 
-      span {
-        color: $white !important;        
-      }
+    & > * {
+      display: inline-block;
+      float: left;
     }
 
-    button {
-      width: auto;
+    .githubIcon {
+      @include githubIcon(15px);
+      position: relative;
+      top: 1.5px;
+    }
 
-      span {
-        color: white;
-        font-size: 20px;
-        margin-top: 3px;
-      }
+    .username {
+      margin-left: 5px;
     }
   }
+
+  .logoutButton {
+    float: right;
+    color: $white !important;
+
+    &:hover {
+      background-color: $blue;
+    }
+  }
+
+
 }

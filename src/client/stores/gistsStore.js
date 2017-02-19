@@ -58,6 +58,8 @@ class GistsStore extends singleton {
       return response.json()
     }).then((gistsArray) => {
       this.setGists(gistsArray)
+      console.log('gistsArray')
+      console.log(gistsArray)
       this.toggleLoading()
     }).catch((error) => {
       alert(error)

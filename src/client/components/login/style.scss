@@ -1,4 +1,5 @@
 @import '~styles/variables.scss';
+@import '~styles/mixins.scss';
 
 .loginBoxContainer {
   width: 600px;
@@ -27,13 +28,7 @@
   }
 
   .githubIcon {
-    width: 60px;
-    height: 60px;
-    background: url('/src/client/assets/images/gh-mark.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    margin: 0 auto;
+    @include githubIcon(60px);
     margin-bottom: 20px;
   }
 

@@ -14,7 +14,7 @@ class UserStore extends singleton {
   constructor() {
     super()
 
-    this.username = ''
+    this.username = localStorage.getItem('username') || ''
     this.password = ''
     this.token    = localStorage.getItem('ghtoken') || ''
   }

@@ -14,7 +14,13 @@ class AuthStore extends singleton {
   constructor() {
     super()
     
-    this.setLoggedIn(UserStore.token ? true : false)
+    let token = UserStore.token;
+
+    this.setLoggedIn(token ? true : false)
+
+    if(token) {
+      UserStore.fetchUserData(token)
+    }
   }
 
   handleGithubResponse(response) {  
@@ -31,6 +37,7 @@ class AuthStore extends singleton {
 
   login(username, password) {
     this.toggleLoggingState()
+    localStorage.setItem('username', username)
 
     const authObject = {
       method: 'POST',
@@ -52,7 +59,8 @@ class AuthStore extends singleton {
   }
 
   logout() {
-     this.setLoggedIn(false)
+    localStorage.removeItem('username')
+    this.setLoggedIn(false)
   }
 
   @action toggleLoggingState() {
@@ -61,16 +69,15 @@ class AuthStore extends singleton {
 
   @action setLoggedIn(state) {
     if(state) {
-      this.isLoggedIn = state
-
       setTimeout(
-        this.toggleLoggingState(),
+        this.toggleLoggingState,
         500
       )
     } else {
-      this.isLoggedIn = state
       localStorage.removeItem('ghtoken')
     }
+
+    this.isLoggedIn = state
   }
 
   @action setError(message) {

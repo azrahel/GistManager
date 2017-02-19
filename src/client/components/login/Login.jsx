@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router'
 import style from './style.scss'
 import CircularProgress from 'material-ui/CircularProgress'
 import Snackbar from 'material-ui/Snackbar'
-import LoginForm from './form/Form'
+import LoginForm from './partials/Form'
 
 export default @inject('authStore') @observer class Login extends Component {
   render() {
