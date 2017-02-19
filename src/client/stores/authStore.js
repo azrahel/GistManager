@@ -46,7 +46,10 @@ class AuthStore extends singleton {
         'Accept': 'application/json',
         Authorization: 'Basic ' + btoa(username + ':' + password)
       },
-      body: JSON.stringify({ note: Math.random() }) 
+      body: JSON.stringify({
+        note: Math.random(),
+        scopes: ['gist']
+      }) 
     }
 
     return fetch('https://api.github.com/authorizations', authObject).then((response) => {

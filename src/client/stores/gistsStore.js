@@ -9,12 +9,14 @@ useStrict(true)
 
 class GistsStore extends singleton {
   @observable gists = []
+  @observable filter = ''
   @observable editedGist
   @observable isLoading
 
   constructor() {
     super()
     this.gists = []
+    this.filter = 'all'
 
     this.loadGists()
   }

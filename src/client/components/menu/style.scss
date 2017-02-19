@@ -1,7 +1,63 @@
+@import '~styles/variables';
+@import '~styles/mixins';
+
 .menuContainer {
   width: 220px;
   height: calc(100vw - 50px);
   display: inline-block;
   float: left;
-  background-color: #333;
+  background-color: $lightBlack;
+  box-sizing: border-box;
+
+  * {
+    color: $white;
+  }
+
+  .menuItem {
+    padding: 5px 10px;
+    width: 100%;
+    -moz-transition: all 1s ease;
+    -webkit-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    transition: all 1s ease;
+    box-sizing: border-box;
+    border-bottom: 1px solid $white;
+
+    & > * {
+      vertical-align: middle;
+    }
+
+    &:first-child {
+      height: 60px;
+      padding: 17px 10px;
+
+      span {
+        top: 5px;
+      }
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+      span {
+        top: 4px;
+      }
+    }
+
+    &:hover,
+    .active {
+      background-color: $blue;
+    }
+
+    span {
+      color: $white;
+      display: inline-block;
+      height: 24px;
+      font-size: 14px;
+      position: relative;
+      margin-left: 10px;
+    }
+
+  }
 }
+
+//delete
