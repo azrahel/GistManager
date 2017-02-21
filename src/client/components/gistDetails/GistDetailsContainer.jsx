@@ -17,7 +17,8 @@ export default @inject('gistsStore') @observer class GistsDetailsContainer exten
       <div className = { style.gistDetailsContainer }>
         <DetailsHeaderBar/>
         {
-          this.props.gistsStore.gistDetailsLoading
+          this.props.gistsStore.gistDetailsLoading ||
+          this.props.gistsStore.gistDetailsLoading === undefined
             ? <CircularProgress className = { style.loader }/>
             : <GistDetails/>
          }

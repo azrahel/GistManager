@@ -26,9 +26,6 @@ class GistsStore extends singleton {
     this.gists = []
     this.filter = ''
 
-    this.isLoading = true
-    this.gistDetailsLoading = true
-
     this.fetchURLs = {
       [Filters.ALL]: 'https://api.github.com/gists',
       [Filters.STARRED]: 'https://api.github.com/gists/starred',
@@ -36,6 +33,9 @@ class GistsStore extends singleton {
 
     autorun(() => {
       if(this.filter !== '') {
+        this.toggleGistsLoading()
+        this.toggleDetailsLoading()
+
         this.fetchUserGists().then(() => {
           this.toggleGistsLoading()
         })

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import mobx from 'mobx'
 import { observer, inject } from 'mobx-react'
 
-import DetailsSectionFile from './DetailsSectionFile'
+import FileDetails from './FileDetails'
 
 import style from './style.scss'
 
@@ -21,7 +21,7 @@ export default @inject('gistsStore') @observer class DetailsFilesSection extends
       <div className = { style.filesSection }>
         {
           files.map((file) => {
-            return <DetailsSectionFile file = { file }/>
+            return <FileDetails key = { file.name + Math.random() } file = { file }/>
           })
         }
       </div>

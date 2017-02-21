@@ -23,7 +23,8 @@ export default @inject('authStore', 'gistsStore') @observer class GistsListConta
       <div className = { style.gistsListContainer }>
         <ListHeader filter = { this.props.gistsStore.filter }/>
         {
-          this.props.gistsStore.isLoading
+          this.props.gistsStore.isLoading ||
+          this.props.gistsStore.isLoading === undefined
             ? <CircularProgress className = { style.loader }/>
             : <GistsList/>
         }

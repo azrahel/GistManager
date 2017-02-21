@@ -41,7 +41,7 @@ export default @inject('gistsStore') @observer class DetailsTopSection extends C
       <div className = { style.topSection }>
         <div className = { style.descriptionContainer }>
           <label>
-            Decrtiption: 
+            Gist decrtiption: 
           </label>
           <div className = { style.description }>
             { gist.description }
