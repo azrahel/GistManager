@@ -26,6 +26,7 @@ class AuthStore extends singleton {
   handleGithubResponse(response) {  
     if (response.token) {
       this.setLoggedIn(true)
+      localStorage.setItem('ghtoken', response.token)
       UserStore.fetchUserData(response.token)
     } else if (response.message) {
       this.toggleLoggingState()
@@ -37,7 +38,6 @@ class AuthStore extends singleton {
 
   login(username, password) {
     this.toggleLoggingState()
-    localStorage.setItem('username', username)
 
     const authObject = {
       method: 'POST',

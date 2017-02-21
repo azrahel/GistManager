@@ -10,10 +10,6 @@ import authStore from './stores/authStore'
 
 import rootRoute from './routes/root'
 
-// const authStore   = new AuthStore();
-// const userStore   = new UserStore();
-// const gistsStore  = new GistsStore();
-
 const stores = { authStore, userStore, gistsStore, UIStore };
 
 ReactDOM.render(

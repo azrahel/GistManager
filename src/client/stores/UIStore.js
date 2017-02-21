@@ -12,11 +12,6 @@ class UIStore extends singleton {
   }
   
   @action setField(name, value) {
-    console.log(name)
-    console.log(value)
-
-    
-    
     this[name] = value
   }
 }

@@ -8,24 +8,18 @@ useStrict(true)
 
 class UserStore extends singleton {
   @observable username
-  @observable password
   @observable token
 
   constructor() {
     super()
 
     this.username = localStorage.getItem('username') || ''
-    this.password = ''
     this.token    = localStorage.getItem('ghtoken') || ''
   }
 
   fetchUserData(token) {
     this.setField('token', token)
-    localStorage.setItem('ghtoken', token)
-
-    GistsStore.reset()
-    GistsStore.fetchUserGists()
-
+    
     const authObject = {
       method: 'GET',
       headers: {
@@ -38,7 +32,8 @@ class UserStore extends singleton {
     fetch('https://api.github.com/users/' + this.username, authObject).then((response) => {
       return response.json()
     }).then((userData) => {
-      //TODO: set user data
+      localStorage.setItem('username', userData.login)
+      this.setField('username', userData.login)
       return userData
     }).catch((error) => {
       alert(error)

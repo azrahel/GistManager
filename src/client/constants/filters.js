@@ -1,2 +1,2 @@
 export const ALL = 'ALL'
-export const STARED = 'STARED'
+export const STARRED = 'STARRED'

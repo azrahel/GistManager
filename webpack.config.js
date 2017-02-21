@@ -71,6 +71,8 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       components: path.resolve('./src/client/components'),
+      constants: path.resolve('./src/client/constants'),
+      models: path.resolve('./src/client/models'),
       stores: path.resolve('./src/client/stores'),
       styles: path.resolve('./src/client/styles'),
       routes: path.resolve('./src/client/routes'),

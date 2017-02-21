@@ -2,42 +2,89 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
+import Toggle from 'material-ui/Toggle';
 
-/**
- * A modal dialog can only be closed by selecting one of the actions.
- */
-@inject('UIStore') @observer class AddGistDialog extends React.Component {
+import DescriptionSection from './DescriptionSection'
+import FilesSection from './FilesSection'
+
+import style from './style.scss'
+
+const togglerStyles = {
+  thumbOn: {
+    backgroundColor: '#449DEA'
+  },
+  trackOn: {
+    backgroundColor: '#449DEA'
+  }
+}
+
+
+@inject('UIStore', 'gistsStore') class AddGistDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    
+    this.props.gistsStore.editGist()
+  }
+
   handleSubmision() {
-    //submit data to store and to server (from the store level)    
-    this.props.UIStore.setField('dialog', null)
+    let gistValid = true
+    
+    this.props.gistsStore.editedGist.files.slice().forEach(file => {
+      if(!file.valid()) {
+        gistValid = false
+      }
+    })
+
+    if(gistValid) {
+      this.props.gistsStore.saveGist()  
+    }
   }
 
   render() {
+    let editedGist = this.props.gistsStore.editedGist
+
     const actions = [
+      <Toggle
+        onToggle = { (e, state) => {
+            editedGist.updateField(
+              editedGist.fieldsKeys.publiclyVisible,
+              state
+            )
+          }
+        }
+        label = "Publicly visible"
+        thumbSwitchedStyle = { togglerStyles.thumbOn }
+        trackSwitchedStyle = { togglerStyles.trackOn }
+      />,
       <FlatButton
         key = 'cancel'
         label = "Cancel"
-        primary = { true }
+        labelStyle = { { color: '#449DEA' } }
         onClick = { () => { this.props.UIStore.setField('dialog', null) } }
       />,
       <FlatButton
         key = 'submit'
         label = "Submit"
-        primary = { true }
-        onClick = { this.handleSubmision }
+        labelStyle = { { color: '#449DEA' } }
+        onClick = { () => { this.handleSubmision() } }
       />,
     ]
 
     return (
       <div>
         <Dialog
-          title   = "Add gist"
+          className = { style.dialog }
+          bodyStyle = { { padding: 0, minHeight: '450px'} }
+          actionsContainerClassName = { style.actionsContainer }
+          onRequestClose = { () => { this.props.UIStore.setField('dialog', null) } }
+          autoScrollBodyContent = { true }
+          title   = "Add new gist"
           actions = { actions }
           modal   = { true }
           open    = { true }
         >
-          Only actions can close this dialog.
+          <DescriptionSection/>
+          <FilesSection/>
         </Dialog>
       </div>
     )
