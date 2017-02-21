@@ -1,0 +1,80 @@
+import React, { Component } from 'react'
+import { action, observer, inject } from 'mobx-react'
+import * as Filters from 'constants/Filters'
+import style from './style.scss'
+import mobx from 'mobx'
+import classnames from 'classnames'
+
+export default @inject('gistsStore') @observer class InListGist extends Component {
+  getDescription() {
+    let descriptionLimiter = 30
+
+    return ' ' + (
+      this.props.gist.description.length > descriptionLimiter
+        ? this.props.gist.description.substring(0, descriptionLimiter) + '(...)'
+        : this.props.gist.description
+      )
+  }
+
+  getDate() {
+    return  ' ' + this.props.gist.created_at.substring(0, 10)
+  }
+
+  getTime() {
+    return ' ' +
+      this.props.gist.created_at.substring(
+        11,
+        this.props.gist.created_at.length - 1
+      )
+  }
+
+  getFilesQuantity() {
+    return ' ' + Object.keys(mobx.toJS(this.props.gist.files)).length
+  }
+
+  selectItem() {
+    this.props.gistsStore.setActive(this.props.gist)
+  }
+
+  render() {
+    let isActive = this.props.gist.id === this.props.gistsStore.activeGist.id
+
+    return (
+      <div
+        className = { classnames(
+            style.listItem,
+            isActive ? style.active : ''
+          )
+        }
+        onClick = { () => this.selectItem(this.props.gist.id) }
+      >
+        <div className = { style.description }>
+          <label>
+            Description:   
+          </label>
+          { this.getDescription() }
+        </div>
+        <div className = { style.created_at }>
+          <div className = { style.left }>
+            <label>
+              Created at:   
+            </label>
+            { this.getDate() }
+          </div>
+          <div className = { style.right }>
+            <label>
+              Time:   
+            </label>
+            { this.getTime() }
+          </div>
+        </div>
+        <div className = { style.filesNo }>
+        <label>
+          Files inside:
+        </label>
+          { this.getFilesQuantity() }
+        </div>
+      </div>
+    )
+  }
+}

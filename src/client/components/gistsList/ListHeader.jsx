@@ -4,21 +4,19 @@ import * as Filters from 'constants/Filters'
 import InListGist from './InListGist'
 import CircularProgress from 'material-ui/CircularProgress'
 
-import ListHeader from './ListHeader'
-
 import style from './style.scss'
 
-export default @inject('authStore', 'gistsStore') @observer class GistsList extends Component {
+export default class ListHeader extends Component {
   render() {
     return (
-      <div className = { style.itemsContainer }>
+      <div className = { style.listHeader }>
         {
-          this.props.gistsStore.gists.slice().map((gist) => {
-            return <InListGist gist = { gist }/>
-          })
+          this.props.filter === Filters.ALL
+            ? 'All gists'
+            : 'Starred gists'
         }
       </div>
-      
     )
   }
 }
+

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import AppBar       from 'components/appBar/AppBar'
 import Menu         from 'components/menu/Menu'
-import GistsList    from 'components/gistsList/GistsList'
-import GistDetails  from 'components/gistDetails/GistDetails'
+import GistsListContainer    from 'components/gistsList/GistsListContainer'
+import GistDetailsContainer  from 'components/gistDetails/GistDetailsContainer'
 
 export default class Dashboard extends Component {
   render() {
@@ -11,8 +11,8 @@ export default class Dashboard extends Component {
       <div>
         <AppBar/>
         <Menu/>
-        <GistsList/>
-        <GistDetails/>
+        <GistsListContainer/>
+        <GistDetailsContainer/>
       </div>
     );
   }

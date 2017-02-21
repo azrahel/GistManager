@@ -13,6 +13,7 @@ class GistsStore extends singleton {
   @observable gists = []
   @observable filter = ''
   @observable editedGist
+  @observable activeGist
   @observable isLoading
   @observable error
 
@@ -132,6 +133,10 @@ class GistsStore extends singleton {
     this.error = value
   }
 
+  @action setActive(gist) {
+    this.activeGist = gist;
+  }
+
   fetchUserGists() {
     this.reset()
     this.toggleLoading()
@@ -149,6 +154,7 @@ class GistsStore extends singleton {
       return response.json()
     }).then((gistsArray) => {
       this.setGists(gistsArray)
+      this.setActive(gistsArray[0])
       this.toggleLoading()
     }).catch((error) => {
       alert(error)

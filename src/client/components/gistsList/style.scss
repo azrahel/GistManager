@@ -1,7 +1,105 @@
+@import '~styles/variables';
+
 .gistsListContainer {
   height: calc(100vw - 50px);
   width: 360px;
   display: inline-block;
   float: left;
-  background-color: #444;
+  background-color: $white;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid $grey;
+  border-left: 1px solid $white;
+  box-sizing: border-box;
+
+  .listHeader {
+    height: 35px;
+    width: 100%;
+    position: relative;
+    top: 0;
+    padding-top: 2px;
+    border-bottom: 1px solid $grey;
+    color: $white;
+    background-color: $lightBlack;
+    box-sizing: border-box;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .loader {
+    margin: 0 auto !important;
+    position: relative !important;
+    display: block !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 200px !important;
+  }
+
+  .itemsContainer {
+    overflow: scroll;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 85px);
+
+    .listItem {
+      display: block;
+      width: 100%;
+      position: relative;
+      float: left;
+      height: 90px;
+      padding: 10px;
+      border-bottom: 1px solid $grey;
+      box-sizing: border-box;
+      -moz-transition: all 1s ease;
+      -webkit-transition: all 1s ease;
+      -o-transition: all 1s ease;
+      transition: all 1s ease;
+
+      &.active {
+        background-color: darken($white, 15);
+      }
+
+      *:hover,
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:hover {
+        background-color: darken($white, 15);
+      }
+
+      label {
+        width: 90px;
+        font-weight: bold;
+        display: inline-block;
+        float: left;
+      }
+      
+      .left,
+      .right {
+        width: 50%;
+        display: inline-block;
+      }
+
+      .right {
+        padding-left: 20px;
+        box-sizing: border-box;
+
+        label {
+          width: 50px;
+        }
+      }
+
+      .description, 
+      .created_at,
+      .filesNo {
+        display: block;
+        height: 33.33%;
+        vertical-align: middle;
+
+      }
+    }
+  }
 }
