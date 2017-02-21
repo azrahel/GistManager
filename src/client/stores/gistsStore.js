@@ -15,6 +15,7 @@ class GistsStore extends singleton {
   @observable editedGist
   @observable activeGist
   @observable isLoading
+  @observable gistDetailsLoading
   @observable error
 
   fetchURLs
@@ -25,6 +26,9 @@ class GistsStore extends singleton {
     this.gists = []
     this.filter = ''
 
+    this.isLoading = true
+    this.gistDetailsLoading = true
+
     this.fetchURLs = {
       [Filters.ALL]: 'https://api.github.com/gists',
       [Filters.STARRED]: 'https://api.github.com/gists/starred',
@@ -32,13 +36,16 @@ class GistsStore extends singleton {
 
     autorun(() => {
       if(this.filter !== '') {
-        this.fetchUserGists()
+        this.fetchUserGists().then(() => {
+          this.toggleGistsLoading()
+        })
       }
     })
   }
 
   @action loadGists() {
     this.isLoading = true
+    this.gistDetailsLoading = true
   }
 
   @action editGist(gist = new Gist()) {
@@ -123,10 +130,15 @@ class GistsStore extends singleton {
     this.gists = []
     this.editedGist = null
     this.isLoading = false
+    this.gistDetailsLoading = false
   }
 
-  @action toggleLoading() {
+  @action toggleGistsLoading() {
     this.isLoading = !this.isLoading;
+  }
+
+  @action toggleDetailsLoading() {
+    this.gistDetailsLoading = !this.gistDetailsLoading
   }
 
   @action setError(value) {
@@ -134,12 +146,11 @@ class GistsStore extends singleton {
   }
 
   @action setActive(gist) {
-    this.activeGist = gist;
+    this.activeGist = gist
   }
 
   fetchUserGists() {
-    this.reset()
-    this.toggleLoading()
+    // this.reset()
 
     const authObject = {
       method: 'GET',
@@ -150,12 +161,35 @@ class GistsStore extends singleton {
       }
     }
 
-    fetch(this.fetchURLs[this.filter], authObject).then((response) => {
+    return fetch(this.fetchURLs[this.filter], authObject).then((response) => {
       return response.json()
     }).then((gistsArray) => {
       this.setGists(gistsArray)
-      this.setActive(gistsArray[0])
-      this.toggleLoading()
+
+      this.fetchGist(gistsArray[0].id).then((gist) => {
+        this.setActive(gist)
+        this.toggleDetailsLoading()
+      });
+      
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
+  fetchGist(id) {
+    const authObject = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        Authorization: 'token ' + UserStore.token
+      }
+    }
+
+    return fetch(this.fetchURLs[Filters.ALL] + '/' + id, authObject).then((response) => {
+      return response.json()
+    }).then((gist) => {
+      return gist
     }).catch((error) => {
       alert(error)
     })

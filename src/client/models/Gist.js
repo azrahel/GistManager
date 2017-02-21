@@ -4,21 +4,18 @@ import File from './File'
 useStrict(true)
 
 class Gist {
-  @observable name
   @observable description
   @observable files
   @observable publiclyVisible
   fieldsKeys
 
   constructor(gist) {
-    this.name = ''
-    this.description = ''
+    this.description = gist.description || ''
     this.files = [new File(0)]
     this.publiclyVisible = false
 
     this.fieldsKeys = {
       description: 'description',
-      name: 'name',
       files: 'files',
       publiclyVisible: 'publiclyVisible'
     }
@@ -56,7 +53,6 @@ class Gist {
   }
 
   @action reset() {
-    this.name = ''
     this.description = ''
     this.files = []
     this.publiclyVisible = false

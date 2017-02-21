@@ -12,7 +12,9 @@ import style from './style.scss'
 export default @inject('authStore', 'gistsStore') @observer class GistsListContainer extends Component {
   constructor(props) {
     super(props)
+  }
 
+  componentDidMount() {
     this.props.gistsStore.setFilter(Filters.ALL)
   }
 

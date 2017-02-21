@@ -47,7 +47,7 @@ export default @inject('UIStore', 'gistsStore') @observer class Menu extends Com
       <div className = { style.menuContainer }>
         {
           this.state.items.map(item =>
-            <MenuItem item = { item }/>
+            <MenuItem key = { item.icon } item = { item }/>
           )
         }
       </div>

@@ -33,11 +33,24 @@ export default @inject('gistsStore') @observer class InListGist extends Componen
   }
 
   selectItem() {
-    this.props.gistsStore.setActive(this.props.gist)
+    this.props.gistsStore.toggleDetailsLoading()
+    
+    this.props.gistsStore.fetchGist(this.props.gist.id).then((gist) => {
+      this.props.gistsStore.setActive(gist)
+      this.props.gistsStore.toggleDetailsLoading()
+    })
+  }
+
+  isActive(id) {
+    if(this.props.gistsStore.activeGist) {
+      return this.props.gist.id === this.props.gistsStore.activeGist.id
+    } 
+
+    return false
   }
 
   render() {
-    let isActive = this.props.gist.id === this.props.gistsStore.activeGist.id
+    let isActive = this.isActive(this.props.gist.id)
 
     return (
       <div
