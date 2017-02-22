@@ -3,6 +3,8 @@ import mobx from 'mobx'
 import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
 
+import { fetchGist } from 'helpers/gists'
+
 import style from './style.scss'
 
 export default @inject('gistsStore') @observer class InListGist extends Component {
@@ -35,7 +37,7 @@ export default @inject('gistsStore') @observer class InListGist extends Componen
   selectItem() {
     this.props.gistsStore.toggleDetailsLoading()
     
-    this.props.gistsStore.fetchGist(this.props.gist.id).then((gist) => {
+    fetchGist(this.props.gist.id).then((gist) => {
       this.props.gistsStore.setActive(gist)
       this.props.gistsStore.toggleDetailsLoading()
     })

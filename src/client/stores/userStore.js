@@ -1,8 +1,7 @@
 import { observable, action, useStrict } from 'mobx';
 import singleton from 'singleton'
-import 'whatwg-fetch'
 
-import GistsStore from './gistsStore'
+import 'whatwg-fetch'
 
 useStrict(true)
 
@@ -15,31 +14,8 @@ class UserStore extends singleton {
     super()
 
     this.password = ''
-    this.username = localStorage.getItem('username') || ''
-    this.token    = localStorage.getItem('ghtoken') || ''
-  }
-
-  fetchUserData(token) {
-    this.setField('token', token)
-    
-    const authObject = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'token ' + token
-      }
-    }
-
-    fetch('https://api.github.com/users/' + this.username, authObject).then((response) => {
-      return response.json()
-    }).then((userData) => {
-      localStorage.setItem('username', userData.login)
-      this.setField('username', userData.login)
-      return userData
-    }).catch((error) => {
-      alert(error)
-    })
+    this.username = localStorage.getItem('username')  || ''
+    this.token    = localStorage.getItem('ghtoken')   || ''
   }
   
   @action setField(name, value) {

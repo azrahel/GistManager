@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { browserHistory } from 'react-router'
+import TextField from 'material-ui/TextField'
+import FlatButton from 'material-ui/FlatButton';
+
+import { login } from 'helpers/auth'
 
 import style from '../style.scss'
 
-import TextField from 'material-ui/TextField'
-import FlatButton from 'material-ui/FlatButton';
+
 
 export default @inject('authStore', 'userStore') @observer class LoginForm extends Component {
   constructor(props) {
@@ -22,7 +25,7 @@ export default @inject('authStore', 'userStore') @observer class LoginForm exten
   }
 
   login() {
-    this.props.authStore.login(
+    login(
       this.props.userStore.username,
       this.props.userStore.password
     ).then(() => {

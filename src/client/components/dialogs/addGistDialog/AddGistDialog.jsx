@@ -7,6 +7,8 @@ import CircularProgress from 'material-ui/CircularProgress'
 import DescriptionSection from './DescriptionSection'
 import FilesSection from './FilesSection'
 
+import { saveGist } from 'helpers/gists'
+
 import style from './style.scss'
 
 const togglerStyles = {
@@ -46,7 +48,7 @@ const togglerStyles = {
     })
 
     if(gistValid) {
-      this.props.gistsStore.saveGist().then(() => {
+      saveGist().then(() => {
         this.props.UIStore.setField('dialogLoading', false)
       })
     }

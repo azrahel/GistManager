@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
-
+import { deleteGist } from 'helpers/gists'
 import AddGistDialog from 'components/dialogs/addGistDialog/AddGistDialog'
 
 import style from './style.scss'
@@ -12,7 +12,7 @@ export default @inject('UIStore', 'gistsStore') @observer class DetailsTopSectio
 
     gistsStore.toggleDetailsLoading()
 
-    gistsStore.deleteGist(this.props.gist.id).then((response) => {
+    deleteGist(this.props.gist.id).then((response) => {
       gistsStore.setActive(gistsStore.gists[0])
       gistsStore.toggleDetailsLoading()   
     })

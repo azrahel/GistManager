@@ -1,7 +1,8 @@
 import { observable, action, useStrict } from 'mobx'
 import 'whatwg-fetch'
 import singleton from 'singleton'
-import { getRequestConfig, fetchData } from 'helpers/request'
+
+import { fetchUserData } from 'helpers/user'
 import UserStore from './userStore'
 
 useStrict(true)
@@ -19,47 +20,8 @@ class AuthStore extends singleton {
     this.setLoggedIn(token ? true : false)
 
     if(token) {
-      UserStore.fetchUserData(token)
+      fetchUserData(token)
     }
-  }
-
-  handleGithubResponse(data) {  
-    if (data.token) {
-      this.setLoggedIn(true)
-      localStorage.setItem('ghtoken', data.token)
-      UserStore.fetchUserData(data.token)
-    } else if (data.message) {
-      this.toggleLoggingState()
-      this.setError(data.message)
-    } else {
-      this.setError('Something just went terribly wrong. Check the console for details.')
-    }
-  }
-  
-  login(username, password) {
-    this.toggleLoggingState()
-
-    const authObject = getRequestConfig(
-      'POST',
-      'Basic ' + btoa(username + ':' + password),
-      JSON.stringify({
-        note: Math.random(),
-        scopes: ['gist']
-      }) 
-    )
-
-    return fetchData(
-      'https://api.github.com/authorizations',
-      authObject,
-      null,
-      (data) => { return this.handleGithubResponse(data) }
-    )
-  }
-
-  logout() {
-
-    localStorage.removeItem('username')
-    this.setLoggedIn(false)
   }
 
   @action toggleLoggingState() {
