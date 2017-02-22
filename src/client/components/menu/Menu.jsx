@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
-
+import * as GistSaveModes from 'constants/GistSaveModes'
 import * as Filters from 'constants/Filters'
 
 import AddGistDialog from 'components/dialogs/addGistDialog/AddGistDialog'
@@ -19,7 +19,8 @@ export default @inject('UIStore', 'gistsStore') @observer class Menu extends Com
           icon: 'note_add',
           label: 'Add new gist',
           onClick: () => { 
-            this.props.UIStore.setField('dialog', AddGistDialog) 
+            this.props.gistsStore.editGist()
+            this.props.UIStore.setField('dialog', AddGistDialog)
           }
         },
         {

@@ -1,4 +1,4 @@
-import { observable, action, useStrict } from 'mobx'
+import { observable, action, useStrict, toJS } from 'mobx'
 import File from './File'
 
 useStrict(true)
@@ -7,12 +7,14 @@ class Gist {
   @observable description
   @observable files
   @observable publiclyVisible
+  id
   fieldsKeys
 
   constructor(gist) {
-    this.description = gist.description || ''
-    this.files = [new File(0)]
-    this.publiclyVisible = false
+    this.id               = gist ? gist.id : ''
+    this.description      = gist ? gist.description : ''
+    this.files            = gist ? this.transformGistFilesForModel(gist.files) : [new File()]
+    this.publiclyVisible  = gist ? gist.public : false
 
     this.fieldsKeys = {
       description: 'description',
@@ -28,35 +30,53 @@ class Gist {
   @action addFile() {
     let maxId = 0
 
-    this.files.forEach(file => {
-      if(file.id > maxId) {
-        maxId = file.id
-      }
-    })
-
     this.files.push(
-      new File(maxId + 1)
+      new File()
     )
   }
 
-  @action removeFile(id) {
+  @action removeFile(name, value) {
     let updatedFiles = []
 
     this.files.forEach((file, i) => {
-      if(file.id !== id) {
+      if(file.filename !== name && file.value !== value) {
         updatedFiles.push(file)
       }
     })
     
     this.files = updatedFiles
-    //TODO: remove on server
   }
 
   @action reset() {
     this.description = ''
     this.files = []
     this.publiclyVisible = false
+  }
 
+  getPostable() {
+    let files = {}
+
+    this.files.slice().forEach((file) => {
+      //only text files support implemented, hence .txt extension 
+      files[file.filename + '.txt'] = { content: file.value }
+    })
+
+    return {
+      'description': this.description,
+      'public': this.publiclyVisible,
+      'files': files
+    }
+  }
+
+  transformGistFilesForModel(files) {
+    let filesArray = []
+    files = toJS(files)
+
+    for(var key in files) {
+      filesArray.push(new File(key, files[key].content))
+    }
+
+    return filesArray
   }
 }
 

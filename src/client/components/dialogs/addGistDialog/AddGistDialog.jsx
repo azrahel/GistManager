@@ -19,11 +19,9 @@ const togglerStyles = {
 }
 
 
-@inject('UIStore', 'gistsStore') class AddGistDialog extends React.Component {
+@inject('UIStore', 'gistsStore') @observer class AddGistDialog extends React.Component {
   constructor(props) {
-    super(props);
-    
-    this.props.gistsStore.editGist()
+    super(props)
   }
 
   handleSubmision() {
@@ -45,6 +43,7 @@ const togglerStyles = {
 
     const actions = [
       <Toggle
+        key = { 'toggle' }
         onToggle = { (e, state) => {
             editedGist.updateField(
               editedGist.fieldsKeys.publiclyVisible,
@@ -52,6 +51,7 @@ const togglerStyles = {
             )
           }
         }
+        toggled = { !editedGist.publiclyVisible }
         label = "Publicly visible"
         thumbSwitchedStyle = { togglerStyles.thumbOn }
         trackSwitchedStyle = { togglerStyles.trackOn }
@@ -82,6 +82,7 @@ const togglerStyles = {
           actions = { actions }
           modal   = { true }
           open    = { true }
+          key = { 'dialog' }
         >
           <DescriptionSection/>
           <FilesSection/>

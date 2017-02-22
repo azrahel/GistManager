@@ -2,19 +2,17 @@ import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
 import FlatButton from 'material-ui/FlatButton';
+import AddGistDialog from 'components/dialogs/addGistDialog/AddGistDialog'
 
 import style from './style.scss'
 
-export default @inject('gistsStore') @observer class DetailsTopSection extends Component {
+export default @inject('UIStore', 'gistsStore') @observer class DetailsTopSection extends Component {
   deleteGist() {
     let gistsStore = this.props.gistsStore
 
     gistsStore.toggleDetailsLoading()
 
     gistsStore.deleteGist(this.props.gist.id).then((response) => {
-      console.log('response in view')
-      console.log(response)
-
       gistsStore.setActive(gistsStore.gists[0])
       gistsStore.toggleDetailsLoading()   
     })
@@ -41,6 +39,7 @@ export default @inject('gistsStore') @observer class DetailsTopSection extends C
       onClick = {
         () => {
           this.props.gistsStore.editGist(this.props.gist)
+          this.props.UIStore.setField('dialog', AddGistDialog)
         }
       }
     >

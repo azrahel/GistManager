@@ -17,6 +17,7 @@ import style from './style.scss'
               value
             )
           }
+          value = { editedGist.description }
           className = { style.descriptionField }
           fullWidth
           hintStyle = { { top: '5px', left: '5px' } }

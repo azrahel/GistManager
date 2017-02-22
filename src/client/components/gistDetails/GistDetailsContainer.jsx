@@ -8,10 +8,6 @@ import GistDetails from './GistDetails'
 import style from './style.scss'
 
 export default @inject('gistsStore') @observer class GistsDetailsContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <div className = { style.gistDetailsContainer }>

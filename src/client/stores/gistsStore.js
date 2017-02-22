@@ -1,6 +1,7 @@
 import { observable, action, useStrict, autorun } from 'mobx'
 import Gist from 'models/Gist'
 import * as Filters from 'constants/Filters'
+import * as GistSaveModes from 'constants/GistSaveModes'
 
 import UserStore  from './userStore'
 import UIStore    from './UIStore'
@@ -19,6 +20,8 @@ class GistsStore extends singleton {
   @observable error
 
   fetchURLs
+  gistSaveMode
+  saveRequestModes
 
   constructor() {
     super()
@@ -28,7 +31,12 @@ class GistsStore extends singleton {
 
     this.fetchURLs = {
       [Filters.ALL]: 'https://api.github.com/gists',
-      [Filters.STARRED]: 'https://api.github.com/gists/starred',
+      [Filters.STARRED]: 'https://api.github.com/gists/starred'
+    }
+
+    this.saveRequestModes = {
+      [GistSaveModes.ADD]: 'POST',
+      [GistSaveModes.EDIT]: 'PATCH'
     }
 
     autorun(() => {
@@ -43,13 +51,26 @@ class GistsStore extends singleton {
     })
   }
 
+  @action toggleGistsLoading() {
+    this.isLoading = !this.isLoading;
+  }
+
+  @action toggleDetailsLoading() {
+    this.gistDetailsLoading = !this.gistDetailsLoading
+  }
+
   @action loadGists() {
     this.isLoading = true
     this.gistDetailsLoading = true
   }
 
-  @action editGist(gist = new Gist()) {
-    this.editedGist = gist
+  @action editGist(gist) {
+    if(gist) {
+      this.gistSaveMode = GistSaveModes.EDIT
+    } else {
+      this.gistSaveMode = GistSaveModes.ADD
+    }
+    this.editedGist = new Gist(gist)
   }
 
   @action setFilter(filter) {
@@ -58,68 +79,8 @@ class GistsStore extends singleton {
     }
   }
 
-  @action saveGist() {
-    let files = {}
-
-    this.editedGist.files.slice().forEach((file) => {
-      //only text files support implemented, hence .txt extension 
-      files[file.name + '.txt'] = { content: file.content }
-    })
-
-    let postableGist = {
-      'description': this.editedGist.description,
-      'public': this.editedGist.publiclyVisible,
-      'files': files
-    }
-
-    const postObject = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'token ' + UserStore.token
-      },
-      body: JSON.stringify(postableGist)
-    }
-
-    fetch(this.fetchURLs[Filters.ALL], postObject).then((response) => {
-      if(response.ok) {
-        this.editedGist.reset()
-        UIStore.setField('dialog', null)
-      }
-
-      return response.json()
-    }).then((gist) => {
-      if(gist.id) {
-        this.addGist(gist)
-      }
-
-      return gist
-    }).catch((error) => {
-      alert(error)
-    })
-  }
-
   @action addGist(gist) {
     this.gists.push(gist)
-  }
-
-  @action removeGist(id) {
-    //TODO: remove on server
-    let updatedGists = []
-
-    this.gists.forEach(gist => {
-      if(gist.id !== id) {
-        updatedGists.push(gist)
-      }
-    })
-    
-    this.setGists(updatedGists)
-  }
-
-  @action removeFile(id) {
-    
-    //TODO: remove on server
   }
 
   @action setGists(gistsArray) {
@@ -133,14 +94,6 @@ class GistsStore extends singleton {
     this.gistDetailsLoading = false
   }
 
-  @action toggleGistsLoading() {
-    this.isLoading = !this.isLoading;
-  }
-
-  @action toggleDetailsLoading() {
-    this.gistDetailsLoading = !this.gistDetailsLoading
-  }
-
   @action setError(value) {
     this.error = value
   }
@@ -150,8 +103,6 @@ class GistsStore extends singleton {
   }
 
   fetchUserGists() {
-    // this.reset()
-
     const authObject = {
       method: 'GET',
       headers: {
@@ -195,20 +146,68 @@ class GistsStore extends singleton {
     })
   }
 
-  deleteGist(id) {
-    function deleteGistFromStore(id) {
-      let updatedGists = []
+  replaceEditedGist(gist) {
+    this.deleteGistFromStore(gist.id)
+    // this.addGist(gist)
+  }
 
-      this.gists.forEach((gist, i) => {
-        if(gist.id !== id) {
-          updatedGists.push(gist)
-        }
-      })
-      
-      this.setGists(updatedGists)
+  saveGist() {
+    function getFetchURL() {
+      let extension = this.gistSaveMode === GistSaveModes.EDIT
+        ? '/' + this.editedGist.id
+        : ''
+
+      return this.fetchURLs[Filters.ALL] + extension
     }
 
-    deleteGistFromStore.bind(this)(id)
+    const postObject = {
+      method: this.saveRequestModes[this.gistSaveMode],
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        Authorization: 'token ' + UserStore.token
+      },
+      body: JSON.stringify(
+        this.editedGist.getPostable()
+      )
+    }
+
+    fetch(getFetchURL.bind(this)(), postObject).then((response) => {
+      if(response.ok) {
+        if(this.gistSaveMode === GistSaveModes.EDIT) {
+          this.replaceEditedGist(response)
+        }
+
+        this.editedGist.reset()
+        UIStore.setField('dialog', null)
+      }
+
+      return response.json()
+    }).then((gist) => {
+      if(gist.id) {
+        this.addGist(gist)
+      }
+
+      return gist
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+
+  deleteGistFromStore(id) {
+    let updatedGists = []
+
+    this.gists.forEach((gist, i) => {
+      if(gist.id !== id) {
+        updatedGists.push(gist)
+      }
+    })
+    
+    this.setGists(updatedGists)
+  }
+
+  deleteGist(id) {
+    this.deleteGistFromStore.bind(this)(id)
 
     const authObject = {
       method: 'DELETE',

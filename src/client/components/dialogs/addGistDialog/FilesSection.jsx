@@ -22,6 +22,7 @@ import style from './style.scss'
         {
           this.props.gistsStore.editedGist.files.slice().map(file => 
             <File
+              key = { Math.random() }
               file = { file }
             />
           )

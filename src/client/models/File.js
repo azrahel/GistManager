@@ -3,36 +3,34 @@ import { observable, action, useStrict } from 'mobx'
 useStrict(true)
 
 class File {
-  id
-  @observable name
-  @observable content
+  @observable filename
+  @observable value
   @observable error
   fieldsKeys
 
-  constructor(id) {
-    this.id = id
-    this.name = ''
-    this.content = ''
+  constructor(name, content) {
+    this.filename = name || ''
+    this.value = content || ''
     this.error = ''
     this.fieldsKeys = {
-      name: 'name',
+      filename: 'filename',
       files: 'conent',
       error: ''
     }
   }
 
   @action updateName(value) {
-    this.name = value
+    this.filename = value
   }
 
   @action updateContent(value) {
-    this.content = value
+    this.value = value
   }
 
   @action valid() {
     this.error = ''
 
-    if(this.name === '' || this.content === '') {
+    if(this.filename === '' || this.content === '') {
       this.error = 'File needs name and content'
     }
 
