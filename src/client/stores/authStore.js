@@ -1,7 +1,7 @@
 import { observable, action, useStrict } from 'mobx'
 import 'whatwg-fetch'
 import singleton from 'singleton'
-
+import { getRequestConfig, fetchData } from 'helpers/request'
 import UserStore from './userStore'
 
 useStrict(true)
@@ -23,45 +23,41 @@ class AuthStore extends singleton {
     }
   }
 
-  handleGithubResponse(response) {  
-    if (response.token) {
+  handleGithubResponse(data) {  
+    if (data.token) {
       this.setLoggedIn(true)
-      localStorage.setItem('ghtoken', response.token)
-      UserStore.fetchUserData(response.token)
-    } else if (response.message) {
+      localStorage.setItem('ghtoken', data.token)
+      UserStore.fetchUserData(data.token)
+    } else if (data.message) {
       this.toggleLoggingState()
-      this.setError(response.message)
+      this.setError(data.message)
     } else {
       this.setError('Something just went terribly wrong. Check the console for details.')
     }
   }
-
+  
   login(username, password) {
     this.toggleLoggingState()
 
-    const authObject = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'Basic ' + btoa(username + ':' + password)
-      },
-      body: JSON.stringify({
+    const authObject = getRequestConfig(
+      'POST',
+      'Basic ' + btoa(username + ':' + password),
+      JSON.stringify({
         note: Math.random(),
         scopes: ['gist']
       }) 
-    }
+    )
 
-    return fetch('https://api.github.com/authorizations', authObject).then((response) => {
-      return response.json()
-    }).then((json) => {
-      return this.handleGithubResponse(json)
-    }).catch((error) => {
-      alert(error)
-    })
+    return fetchData(
+      'https://api.github.com/authorizations',
+      authObject,
+      null,
+      (data) => { return this.handleGithubResponse(data) }
+    )
   }
 
   logout() {
+
     localStorage.removeItem('username')
     this.setLoggedIn(false)
   }
@@ -77,6 +73,7 @@ class AuthStore extends singleton {
         500
       )
     } else {
+      this.isLogging = false;
       localStorage.removeItem('ghtoken')
     }
 

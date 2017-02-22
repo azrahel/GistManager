@@ -76,6 +76,7 @@ module.exports = {
       stores: path.resolve('./src/client/stores'),
       styles: path.resolve('./src/client/styles'),
       routes: path.resolve('./src/client/routes'),
+      helpers: path.resolve('./src/client/helpers'),
       assets: path.resolve('./src/client/assets')
     }
   }

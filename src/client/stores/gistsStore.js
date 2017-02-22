@@ -1,4 +1,6 @@
 import { observable, action, useStrict, autorun } from 'mobx'
+
+import { getRequestConfig, fetchData } from 'helpers/request'
 import Gist from 'models/Gist'
 import * as Filters from 'constants/Filters'
 import * as GistSaveModes from 'constants/GistSaveModes'
@@ -103,95 +105,10 @@ class GistsStore extends singleton {
     this.activeGist = gist
   }
 
-  fetchUserGists() {
-    const authObject = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'token ' + UserStore.token
-      }
-    }
-
-    return fetch(this.fetchURLs[this.filter], authObject).then((response) => {
-      return response.json()
-    }).then((gistsArray) => {
-      this.setGists(gistsArray)
-
-      this.fetchGist(gistsArray[0].id).then((gist) => {
-        this.setActive(gist)
-        this.toggleDetailsLoading()
-      });
-      
-    }).catch((error) => {
-      alert(error)
-    })
-  }
-
-  fetchGist(id) {
-    const authObject = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'token ' + UserStore.token
-      }
-    }
-
-    return fetch(this.fetchURLs[Filters.ALL] + '/' + id, authObject).then((response) => {
-      return response.json()
-    }).then((gist) => {
-      return gist
-    }).catch((error) => {
-      alert(error)
-    })
-  }
-
   replaceEditedGist(gist) {
     this.deleteGistFromStore(gist.id)
     this.addGist(gist)
     this.setActive(gist)
-  }
-
-  saveGist() {
-    function getFetchURL() {
-      let extension = this.gistSaveMode === GistSaveModes.EDIT
-        ? '/' + this.editedGist.id
-        : ''
-
-      return this.fetchURLs[Filters.ALL] + extension
-    }
-
-    const postObject = {
-      method: this.saveRequestModes[this.gistSaveMode],
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        Authorization: 'token ' + UserStore.token
-      },
-      body: JSON.stringify(
-        this.editedGist.getPostable()
-      )
-    }
-
-    return fetch(getFetchURL.bind(this)(), postObject).then((response) => {
-      if(response.ok) {
-        this.editedGist.reset()
-        UIStore.dismissDialog()
-      }
-
-      return response.json()
-    }).then((gist) => {
-      if(this.gistSaveMode === GistSaveModes.EDIT) {
-          this.replaceEditedGist(gist)
-      } else {
-        this.addGist(gist)
-      }
-
-      return gist
-    }).catch((error) => {
-      alert(error)
-    })
   }
 
   deleteGistFromStore(id) {
@@ -206,21 +123,96 @@ class GistsStore extends singleton {
     this.setGists(updatedGists)
   }
 
+  fetchUserGists() {
+    const authObject = getRequestConfig(
+      'GET',
+      'token ' + UserStore.token
+    )
+
+    return fetchData(
+      this.fetchURLs[this.filter],
+      authObject,
+      null,
+      (gistsArray) => {
+        this.setGists(gistsArray)
+
+        this.fetchGist(gistsArray[0].id).then((gist) => {
+          this.setActive(gist)
+          this.toggleDetailsLoading()
+        });
+      }
+    )
+  }
+
+  fetchGist(id) {
+    const authObject = getRequestConfig(
+      'GET',
+      'token ' + UserStore.token
+    )
+
+    return fetchData(
+      this.fetchURLs[Filters.ALL] + '/' + id,
+      authObject,
+      null,
+      (gist) => {
+        return gist
+      }
+    )
+  }
+
+  saveGist() {
+    function getFetchURL() {
+      let extension = this.gistSaveMode === GistSaveModes.EDIT
+        ? '/' + this.editedGist.id
+        : ''
+
+      return this.fetchURLs[Filters.ALL] + extension
+    }
+
+    const authObject = getRequestConfig(
+      this.saveRequestModes[this.gistSaveMode],
+      'token ' + UserStore.token,
+      JSON.stringify(
+        this.editedGist.getPostable()
+      )
+    )
+
+    return fetchData(
+      getFetchURL.bind(this)(),
+      authObject,
+      (response) => {
+        if(response.ok) {
+          this.editedGist.reset()
+          UIStore.dismissDialog()
+        }
+
+        return response.json()
+      },
+      (gist) => {
+        if(this.gistSaveMode === GistSaveModes.EDIT) {
+            this.replaceEditedGist(gist)
+        } else {
+          this.addGist(gist)
+        }
+
+        return gist
+      }
+    )
+  }
+
   deleteGist(id) {
     this.deleteGistFromStore.bind(this)(id)
 
-    const authObject = {
-      method: 'DELETE',
-      headers: {
-        Authorization: 'token ' + UserStore.token
-      }
-    }
+    const authObject = getRequestConfig(
+      'DELETE',
+      'token ' + UserStore.token
+    )
 
-    return fetch(this.fetchURLs[Filters.ALL] + '/' + id, authObject).then((response) => {
-      return response
-    }).catch((error) => {
-      alert(error)
-    })
+    return fetchData(
+      this.fetchURLs[Filters.ALL] + '/' + id,
+      authObject,
+      (response) => { return response }
+    )
   }
 }
 

@@ -66,21 +66,21 @@ const togglerStyles = {
           }
         }
         toggled = { !editedGist.publiclyVisible }
-        label = "Publicly visible"
+        label   = "Publicly visible"
         thumbSwitchedStyle = { togglerStyles.thumbOn }
         trackSwitchedStyle = { togglerStyles.trackOn }
       />,
       <FlatButton
-        key = 'cancel'
-        label = "Cancel"
-        labelStyle = { { color: '#449DEA' } }
-        onClick = { () => { this.props.UIStore.dismissDialog() } }
+        key         = 'cancel'
+        label       = "Cancel"
+        labelStyle  = { { color: '#449DEA' } }
+        onClick     = { () => { this.props.UIStore.dismissDialog() } }
       />,
       <FlatButton
-        key = 'submit'
-        label = "Submit"
-        labelStyle = { { color: '#449DEA' } }
-        onClick = { () => { this.handleSubmision() } }
+        key         = 'submit'
+        label       = "Submit"
+        labelStyle  = { { color: '#449DEA' } }
+        onClick     = { () => { this.handleSubmision() } }
       />,
     ]
 
@@ -90,13 +90,13 @@ const togglerStyles = {
           className = { style.dialog }
           bodyStyle = { { padding: 0, minHeight: '450px'} }
           actionsContainerClassName = { style.actionsContainer }
-          onRequestClose = { () => { this.props.UIStore.dismissDialog() } }
-          autoScrollBodyContent = { true }
+          onRequestClose            = { () => { this.props.UIStore.dismissDialog() } }
+          autoScrollBodyContent     = { true }
           title   = "Add new gist"
           actions = { this.props.UIStore.dialogLoading ? null : actions }
           modal   = { true }
           open    = { true }
-          key = { 'dialog' }
+          key     = { 'dialog' }
         >
           {
             this.props.UIStore.dialogLoading
