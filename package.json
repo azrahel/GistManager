@@ -1,7 +1,7 @@
 {
-  "name": "crit_calendar",
+  "name": "gist_manager",
   "version": "1.0.0",
-  "description": "Boilerplate for ReactJS project with hot code reloading",
+  "description": "Github gists manager based on Node, React, Mobx etc.",
   "scripts": {
     "start": "node server.js",
     "lint": "eslint src"
@@ -16,13 +16,13 @@
   "keywords": [
     "react",
     "reactjs",
-    "boilerplate",
     "hot",
     "reload",
     "hmr",
     "live",
     "edit",
-    "webpack"
+    "webpack",
+    "mobx"
   ],
   "author": "Dan Abramov <dan.abramov@me.com> (http://github.com/gaearon)",
   "license": "MIT",
