@@ -6,9 +6,16 @@ useStrict(true)
 
 class UIStore extends singleton {
   @observable dialog
+  @observable dialogLoading
 
   constructor() {
     super()
+
+    this.dialogLoading = false
+  }
+
+  @action dismissDialog() {
+    this.dialog = null
   }
   
   @action setField(name, value) {

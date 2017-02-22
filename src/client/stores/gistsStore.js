@@ -174,10 +174,10 @@ class GistsStore extends singleton {
       )
     }
 
-    fetch(getFetchURL.bind(this)(), postObject).then((response) => {
+    return fetch(getFetchURL.bind(this)(), postObject).then((response) => {
       if(response.ok) {
         this.editedGist.reset()
-        UIStore.setField('dialog', null)
+        UIStore.dismissDialog()
       }
 
       return response.json()

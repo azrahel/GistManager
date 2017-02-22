@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import Toggle from 'material-ui/Toggle';
-
+import CircularProgress from 'material-ui/CircularProgress'
 import DescriptionSection from './DescriptionSection'
 import FilesSection from './FilesSection'
 
@@ -23,8 +23,21 @@ const togglerStyles = {
     super(props)
   }
 
+  componentDidMount() {
+    document.addEventListener('keyup', function (e) {
+        var escapeKey = e.key === 'Escape' || 
+                        e.key === 'Esc' || 
+                        e.keyCode === 27
+        if (escapeKey) { //
+          this.props.UIStore.dismissDialog()
+        }
+    }.bind(this))
+  }
+
   handleSubmision() {
     let gistValid = true
+
+    this.props.UIStore.setField('dialogLoading', true)
     
     this.props.gistsStore.editedGist.files.slice().forEach(file => {
       if(!file.valid()) {
@@ -33,7 +46,9 @@ const togglerStyles = {
     })
 
     if(gistValid) {
-      this.props.gistsStore.saveGist()  
+      this.props.gistsStore.saveGist().then(() => {
+        this.props.UIStore.setField('dialogLoading', false)
+      })
     }
   }
 
@@ -59,7 +74,7 @@ const togglerStyles = {
         key = 'cancel'
         label = "Cancel"
         labelStyle = { { color: '#449DEA' } }
-        onClick = { () => { this.props.UIStore.setField('dialog', null) } }
+        onClick = { () => { this.props.UIStore.dismissDialog() } }
       />,
       <FlatButton
         key = 'submit'
@@ -75,16 +90,25 @@ const togglerStyles = {
           className = { style.dialog }
           bodyStyle = { { padding: 0, minHeight: '450px'} }
           actionsContainerClassName = { style.actionsContainer }
-          onRequestClose = { () => { this.props.UIStore.setField('dialog', null) } }
+          onRequestClose = { () => { this.props.UIStore.dismissDialog() } }
           autoScrollBodyContent = { true }
           title   = "Add new gist"
-          actions = { actions }
+          actions = { this.props.UIStore.dialogLoading ? null : actions }
           modal   = { true }
           open    = { true }
           key = { 'dialog' }
         >
-          <DescriptionSection/>
-          <FilesSection/>
+          {
+            this.props.UIStore.dialogLoading
+              ? <div className = { style.loadingContainer }>
+                  <CircularProgress/>
+                </div>
+              : [
+                <DescriptionSection key = 'descriptionSection'/>,
+                <FilesSection key = 'filesSection'/>
+              ]
+          }
+          
         </Dialog>
       </div>
     )

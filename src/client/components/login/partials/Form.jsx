@@ -12,6 +12,15 @@ export default @inject('authStore', 'userStore') @observer class LoginForm exten
     super(props)
   }
 
+  componentDidMount() {
+    document.addEventListener('keypress', function (e) {
+        var key = e.which || e.keyCode;
+        if (key === 13) { //enter
+          this.login()
+        }
+    }.bind(this))
+  }
+
   login() {
     this.props.authStore.login(
       this.props.userStore.username,
