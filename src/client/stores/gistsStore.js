@@ -148,7 +148,8 @@ class GistsStore extends singleton {
 
   replaceEditedGist(gist) {
     this.deleteGistFromStore(gist.id)
-    // this.addGist(gist)
+    this.addGist(gist)
+    this.setActive(gist)
   }
 
   saveGist() {
@@ -174,17 +175,15 @@ class GistsStore extends singleton {
 
     fetch(getFetchURL.bind(this)(), postObject).then((response) => {
       if(response.ok) {
-        if(this.gistSaveMode === GistSaveModes.EDIT) {
-          this.replaceEditedGist(response)
-        }
-
         this.editedGist.reset()
         UIStore.setField('dialog', null)
       }
 
       return response.json()
     }).then((gist) => {
-      if(gist.id) {
+      if(this.gistSaveMode === GistSaveModes.EDIT) {
+          this.replaceEditedGist(gist)
+      } else {
         this.addGist(gist)
       }
 
