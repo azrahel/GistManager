@@ -2,7 +2,7 @@ import React from 'react'
 import { observer, inject } from 'mobx-react'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import Toggle from 'material-ui/Toggle';
+import Toggle from 'material-ui/Toggle'
 import CircularProgress from 'material-ui/CircularProgress'
 import DescriptionSection from './DescriptionSection'
 import FilesSection from './FilesSection'

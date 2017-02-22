@@ -5,47 +5,47 @@ describe('AuthStore', () => {
     const store = new AuthStore()
     
     expect(store.isLogging).toBe(false)
-  });
-});
+  })
+})
 
 describe('AuthStore', () => {
   it('default error value is empty string', () => {
     const store = new AuthStore()
     
     expect(store.error).toBe('')
-  });
-});
+  })
+})
 
 describe('AuthStore', () => {
   it('toggleLoggingState toggles isLogging value', () => {
     const store = new AuthStore()
     
     expect(store.isLogging).toBe(false)
-    store.toggleLoggingState();
+    store.toggleLoggingState()
     expect(store.isLogging).toBe(true)
-  });
-});
+  })
+})
 
 describe('AuthStore', () => {
   it('toggleLoggingState toggles isLogging value', () => {
     const store = new AuthStore()
     
     expect(store.isLogging).toBe(false)
-    store.toggleLoggingState();
+    store.toggleLoggingState()
     expect(store.isLogging).toBe(true)
-  });
-});
+  })
+})
 
 describe('AuthStore', () => {
   it('setError method sets error value to provided', () => {
     const store = new AuthStore()
-    const testText = 'Easy, am just testing you.';
+    const testText = 'Easy, am just testing you.'
     
     expect(store.error).toBe('')
     store.setError(testText)
     expect(store.error).toBe(testText)
-  });
-});
+  })
+})
 
 describe('AuthStore', () => {
   it('setLoggedIn method sets isLoggedIn value to provided', () => {
@@ -57,5 +57,5 @@ describe('AuthStore', () => {
 
     store.setLoggedIn(false)
     expect(store.isLoggedIn).toBe(false)
-  });
-});
+  })
+})

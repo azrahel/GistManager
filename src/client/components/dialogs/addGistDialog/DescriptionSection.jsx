@@ -1,6 +1,6 @@
 import React from 'react'
 import { observer, inject } from 'mobx-react'
-import TextField from 'material-ui/TextField';
+import TextField from 'material-ui/TextField'
 
 import style from './style.scss'
 

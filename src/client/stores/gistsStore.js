@@ -38,7 +38,7 @@ class GistsStore extends singleton {
   }
 
   @action toggleGistsLoading() {
-    this.isLoading = !this.isLoading;
+    this.isLoading = !this.isLoading
   }
 
   @action toggleDetailsLoading() {

@@ -17,5 +17,5 @@ ReactDOM.render(
     <Router history = { browserHistory } routes = { rootRoute(stores) }/>
   </Provider>,
   document.getElementById('root')
-);
+)
 

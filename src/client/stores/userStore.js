@@ -1,4 +1,4 @@
-import { observable, action, useStrict } from 'mobx';
+import { observable, action, useStrict } from 'mobx'
 import singleton from 'singleton'
 
 import 'whatwg-fetch'
@@ -23,4 +23,4 @@ class UserStore extends singleton {
   }
 }
 
-export default UserStore.get();
+export default UserStore.get()

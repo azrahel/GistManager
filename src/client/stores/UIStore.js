@@ -1,4 +1,4 @@
-import { observable, action, useStrict } from 'mobx';
+import { observable, action, useStrict } from 'mobx'
 import singleton from 'singleton'
 import 'whatwg-fetch'
 

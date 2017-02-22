@@ -30,7 +30,7 @@ export function fetchUserGists() {
       fetchGist(gistsArray[0].id).then((gist) => {
         GistsStore.setActive(gist)
         GistsStore.toggleDetailsLoading()
-      });
+      })
     }
   )
 }

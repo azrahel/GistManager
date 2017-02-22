@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
 import { observer, inject } from 'mobx-react'
-import FlatButton from 'material-ui/FlatButton';
+import FlatButton from 'material-ui/FlatButton'
 import { logout } from 'helpers/auth'
 
 import style from './style.scss'

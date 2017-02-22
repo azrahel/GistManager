@@ -15,7 +15,7 @@ class AuthStore extends singleton {
   constructor() {
     super()
     
-    let token = UserStore.token;
+    let token = UserStore.token
 
     this.setLoggedIn(token ? true : false)
 
@@ -35,7 +35,7 @@ class AuthStore extends singleton {
         500
       )
     } else {
-      this.isLogging = false;
+      this.isLogging = false
       localStorage.removeItem('ghtoken')
     }
 
