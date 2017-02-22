@@ -6,13 +6,27 @@ import FlatButton from 'material-ui/FlatButton';
 import style from './style.scss'
 
 export default @inject('gistsStore') @observer class DetailsTopSection extends Component {
+  deleteGist() {
+    let gistsStore = this.props.gistsStore
+
+    gistsStore.toggleDetailsLoading()
+
+    gistsStore.deleteGist(this.props.gist.id).then((response) => {
+      console.log('response in view')
+      console.log(response)
+
+      gistsStore.setActive(gistsStore.gists[0])
+      gistsStore.toggleDetailsLoading()   
+    })
+  }
+
   getRemoveButton() {
     return <div
       key = { 'delete' }
       className = { classnames('material-icons', 'md-24', style.controlButton) }
       onClick = {
         () => {
-          this.props.gistsStore.removeGist(this.props.gist.id)
+          this.deleteGist()
         }
       }
     >

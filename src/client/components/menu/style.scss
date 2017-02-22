@@ -25,6 +25,7 @@
   
     &:hover,
     &.active {
+      cursor: pointer;
       background-color: $blue;
     }
 

@@ -10,7 +10,7 @@ export default class App extends Component {
       <MuiThemeProvider>
         <div>
           {
-            // <Devtools/>
+            <Devtools/>
           }
           <GenericDialog/>
           <div className = { style.appContainer }>

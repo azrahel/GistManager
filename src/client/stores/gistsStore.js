@@ -194,6 +194,35 @@ class GistsStore extends singleton {
       alert(error)
     })
   }
+
+  deleteGist(id) {
+    function deleteGistFromStore(id) {
+      let updatedGists = []
+
+      this.gists.forEach((gist, i) => {
+        if(gist.id !== id) {
+          updatedGists.push(gist)
+        }
+      })
+      
+      this.setGists(updatedGists)
+    }
+
+    deleteGistFromStore.bind(this)(id)
+
+    const authObject = {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'token ' + UserStore.token
+      }
+    }
+
+    return fetch(this.fetchURLs[Filters.ALL] + '/' + id, authObject).then((response) => {
+      return response
+    }).catch((error) => {
+      alert(error)
+    })
+  }
 }
 
 export default GistsStore.get()
