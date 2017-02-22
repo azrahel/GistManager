@@ -9,9 +9,13 @@ class File {
   fieldsKeys
 
   constructor(name, content) {
-    this.filename = name || ''
-    this.value = content || ''
-    this.error = ''
+    this.oldName    = name || ''
+    this.filename   = name || ''
+    
+    this.oldValue   = content || ''
+    this.value      = content || ''
+    
+    this.error      = ''
     this.fieldsKeys = {
       filename: 'filename',
       files: 'conent',

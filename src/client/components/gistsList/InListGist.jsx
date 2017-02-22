@@ -10,6 +10,7 @@ export default @inject('gistsStore') @observer class InListGist extends Componen
     let descriptionLimiter = 30
 
     return ' ' + (
+      this.props.gist.description &&
       this.props.gist.description.length > descriptionLimiter
         ? this.props.gist.description.substring(0, descriptionLimiter) + '(...)'
         : this.props.gist.description

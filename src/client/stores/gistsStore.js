@@ -70,6 +70,7 @@ class GistsStore extends singleton {
     } else {
       this.gistSaveMode = GistSaveModes.ADD
     }
+    
     this.editedGist = new Gist(gist)
   }
 

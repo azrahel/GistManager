@@ -28,8 +28,6 @@ class Gist {
   }
 
   @action addFile() {
-    let maxId = 0
-
     this.files.push(
       new File()
     )
@@ -39,9 +37,16 @@ class Gist {
     let updatedFiles = []
 
     this.files.forEach((file, i) => {
-      if(file.filename !== name && file.value !== value) {
-        updatedFiles.push(file)
+      //files has no id. name and value fields identify it
+      if(file.filename === name && file.value === value) {
+        //https://developer.github.com/v3/gists/
+        //Note: All files from the previous version of the gist are carried over by
+        //default if not included in the object. Deletes can be performed by
+        //including the filename with a null object.
+        file.value = null
       }
+
+      updatedFiles.push(file)
     })
     
     this.files = updatedFiles
@@ -54,17 +59,39 @@ class Gist {
   }
 
   getPostable() {
-    let files = {}
+    function getFilesToBePosted() {
+      let gistFromGithub = this.id !== ''
+      let files = {}
 
-    this.files.slice().forEach((file) => {
-      //only text files support implemented, hence .txt extension 
-      files[file.filename + '.txt'] = { content: file.value }
-    })
+      if(gistFromGithub) {
+        this.files.slice().forEach((file) => {
+          let modified = file.value !== file.oldValue || file.oldName !== file.filename
+          let toBeDeleted = file.value === null
+          //https://developer.github.com/v3/gists/
+          // Note: All files from the previous version of the gist are carried over 
+          //by default if not included in the object. Deletes can be performed by 
+          //including the filename with a null object.
+          if(toBeDeleted) {
+            files[file.oldName] = null
+          } else if(modified) {
+            files[file.oldName] = { filename: file.filename, content: file.value }
+          }
+        })
+      } else {
+        this.files.slice().forEach((file) => {
+          if(file.value !== null)  {
+            files[file.filename] = { content: file.value }  
+          }
+        })
+      }
+
+      return files
+    }
 
     return {
       'description': this.description,
       'public': this.publiclyVisible,
-      'files': files
+      'files': getFilesToBePosted.bind(this)()
     }
   }
 

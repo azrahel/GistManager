@@ -17,16 +17,24 @@ import style from './style.scss'
   }
 
   render() {
-    return (
-      <div className = { style.filesSectionContainer }>
-        {
-          this.props.gistsStore.editedGist.files.slice().map(file => 
+    let files = []
+
+    this.props.gistsStore.editedGist.files.slice().forEach(
+      (file) => {
+        if (file.value !== null) {
+          files.push(
             <File
               key = { Math.random() }
               file = { file }
             />
           )
         }
+      }
+    )
+
+    return (
+      <div className = { style.filesSectionContainer }>
+        { files }
         <FlatButton
           label = 'add new file'
           className = { style.addFileButton }
