@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
-import { action, observer, inject } from 'mobx-react'
-import * as Filters from 'constants/Filters'
-import style from './style.scss'
 import mobx from 'mobx'
+import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
+
+import style from './style.scss'
 
 export default @inject('gistsStore') @observer class InListGist extends Component {
   getDescription() {
     let descriptionLimiter = 30
 
     return ' ' + (
-      this.props.gist.description &&
       this.props.gist.description.length > descriptionLimiter
         ? this.props.gist.description.substring(0, descriptionLimiter) + '(...)'
         : this.props.gist.description
@@ -51,13 +50,13 @@ export default @inject('gistsStore') @observer class InListGist extends Componen
   }
 
   render() {
-    let isActive = this.isActive(this.props.gist.id)
-
     return (
       <div
         className = { classnames(
             style.listItem,
-            isActive ? style.active : ''
+            this.isActive(this.props.gist.id)
+              ? style.active
+              : ''
           )
         }
         onClick = { () => this.selectItem(this.props.gist.id) }

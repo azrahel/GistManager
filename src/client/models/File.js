@@ -4,6 +4,7 @@ useStrict(true)
 
 class File {
   @observable filename
+  @observable toBeDeleted
   @observable value
   @observable error
   fieldsKeys
@@ -14,6 +15,8 @@ class File {
     
     this.oldValue   = content || ''
     this.value      = content || ''
+
+    this.toBeDeleted = false
     
     this.error      = ''
     this.fieldsKeys = {

@@ -6,7 +6,6 @@ import style from '../style.scss'
 
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton';
-import FontIcon from 'material-ui/FontIcon';
 
 export default @inject('authStore', 'userStore') @observer class LoginForm extends Component {
   constructor(props) {

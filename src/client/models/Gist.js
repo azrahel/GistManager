@@ -43,7 +43,7 @@ class Gist {
         //Note: All files from the previous version of the gist are carried over by
         //default if not included in the object. Deletes can be performed by
         //including the filename with a null object.
-        file.value = null
+        file.toBeDeleted = true
       }
 
       updatedFiles.push(file)
@@ -66,7 +66,7 @@ class Gist {
       if(gistFromGithub) {
         this.files.slice().forEach((file) => {
           let modified = file.value !== file.oldValue || file.oldName !== file.filename
-          let toBeDeleted = file.value === null
+          let toBeDeleted = file.toBeDeleted
           //https://developer.github.com/v3/gists/
           // Note: All files from the previous version of the gist are carried over 
           //by default if not included in the object. Deletes can be performed by 
@@ -79,7 +79,7 @@ class Gist {
         })
       } else {
         this.files.slice().forEach((file) => {
-          if(file.value !== null)  {
+          if(!file.toBeDeleted)  {
             files[file.filename] = { content: file.value }  
           }
         })

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import classnames from 'classnames'
-import FlatButton from 'material-ui/FlatButton';
+
 import AddGistDialog from 'components/dialogs/addGistDialog/AddGistDialog'
 
 import style from './style.scss'

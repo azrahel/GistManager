@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { action, observer, inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import * as Filters from 'constants/Filters'
-import InListGist from './InListGist'
-import CircularProgress from 'material-ui/CircularProgress'
 
 import style from './style.scss'
 

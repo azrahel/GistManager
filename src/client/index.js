@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'mobx-react'
-import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import { Router, browserHistory } from 'react-router'
 
 import UIStore from './stores/UIStore'
 import userStore from './stores/userStore'

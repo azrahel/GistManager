@@ -1,9 +1,6 @@
 import React from 'react'
 import { observer, inject } from 'mobx-react'
-import classnames from 'classnames'
-
 import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
 
 import CodeMirror from 'react-codemirror'
 
@@ -21,7 +18,7 @@ import style from './style.scss'
 
     this.props.gistsStore.editedGist.files.slice().forEach(
       (file) => {
-        if (file.value !== null) {
+        if (!file.toBeDeleted) {
           files.push(
             <File
               key = { Math.random() }

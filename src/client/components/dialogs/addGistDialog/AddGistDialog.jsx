@@ -18,7 +18,6 @@ const togglerStyles = {
   }
 }
 
-
 @inject('UIStore', 'gistsStore') @observer class AddGistDialog extends React.Component {
   constructor(props) {
     super(props)

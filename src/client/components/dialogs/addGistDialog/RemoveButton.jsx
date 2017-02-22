@@ -10,7 +10,7 @@ import style from './style.scss'
     let removableFiles = []
 
     editedGist.files.slice().forEach(file => {
-      if(file.value) {
+      if(!file.toBeDeleted) {
         removableFiles.push(file)
       }
     })

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
-import mobx from 'mobx'
 import { observer, inject } from 'mobx-react'
 import FlatButton from 'material-ui/FlatButton';
 

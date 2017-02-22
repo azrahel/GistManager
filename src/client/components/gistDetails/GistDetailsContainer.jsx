@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { browserHistory } from 'react-router'
+
 import CircularProgress from 'material-ui/CircularProgress'
 import DetailsHeaderBar from './DetailsHeaderBar'
 import GistDetails from './GistDetails'

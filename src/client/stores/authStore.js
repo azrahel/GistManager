@@ -1,8 +1,8 @@
-import { observable, computed, action, useStrict } from 'mobx'
+import { observable, action, useStrict } from 'mobx'
 import 'whatwg-fetch'
-import GistsStore from './gistsStore'
-import UserStore from './userStore'
 import singleton from 'singleton'
+
+import UserStore from './userStore'
 
 useStrict(true)
 
