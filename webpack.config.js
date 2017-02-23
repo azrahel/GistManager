@@ -1,11 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 
-let PATHS = {
-  style: path.resolve('./src/client/styles'),
-  style1: path.resolve('./node_modules/react-toolbox')
-}
-
 module.exports = {
   devtool: 'eval',
   entry: [
@@ -33,12 +28,8 @@ module.exports = {
           loaders: [
             'style',
             'css?modules,localIdentName=[local]__[hash:base64:5]',
-            // 'postcss',
-            // 'resolve-url',
             'sass?sourceMap',
-            // 'toolbox'
           ],
-          // loaders: ['style', 'css', 'sass'],
           exclude: /(node_modules)\/react-toolbox/
         },
         {
