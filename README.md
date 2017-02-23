@@ -1,6 +1,6 @@
 # Gist manager
 
-Gist manager is simple frontend (served with webpck-dev-server) application trying to better utilise Github Gists API. Bare in mind - it is not fully functional Gists manager (lack of labels and stars management). But well, it s almost there.
+Gist manager is simple, frontend (served with webpck-dev-server) application, trying to better utilise Github Gists API. Bare in mind - it is not fully functional Gists manager (lack of labels and stars management). But well, it s almost there.
 Feel free to add whatever you feel necessary though :].
 
 ## Features
@@ -43,7 +43,7 @@ To run tests do `npm test` in main directory of the app.
 
 ### Back-end
 
-Well, there s kinda no back-end. Webpack-dev-server managing it all.
+Well, there s kinda no back-end. Node is needed to run it, but Webpack-dev-server is actually managing it all from server.js file.
 
 ## Why you should consider it `awesome`
 

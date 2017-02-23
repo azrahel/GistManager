@@ -67,7 +67,7 @@ const togglerStyles = {
             )
           }
         }
-        toggled = { !editedGist.publiclyVisible }
+        toggled = { editedGist.publiclyVisible }
         label   = "Publicly visible"
         thumbSwitchedStyle = { togglerStyles.thumbOn }
         trackSwitchedStyle = { togglerStyles.trackOn }

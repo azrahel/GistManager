@@ -1,5 +1,6 @@
 import GistsStore from 'stores/gistsStore'
 import UserStore from 'stores/userStore'
+import UIStore from 'stores/UIStore'
 import * as GistSaveModes from 'constants/GistSaveModes'
 import * as Filters from 'constants/Filters'
 import { getRequestConfig, fetchData } from 'helpers/request'
