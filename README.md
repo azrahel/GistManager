@@ -31,7 +31,7 @@ To run tests do `npm test` in main directory of the app.
 
 ## Technology stack
 
-### Front-end:
+### Front-end
 
 * [Webpack](https://webpack.github.io/) to automize tasks and bundle modules, provide aliasses, CSSModules and much more
 * [Babel](https://babeljs.io/) so ES6, JSX and all the love can be used like no biggie
@@ -41,8 +41,22 @@ To run tests do `npm test` in main directory of the app.
 * [MaterialUI](http://www.material-ui.com/#/) not to invent wheel again (providing basic UI components)
 * [SASS](http://sass-lang.com/) as a styles preprocessor
 
-### Back-end:
+### Back-end
 
 Well, there s kinda no back-end. Webpack-dev-server managing it all.
+
+## Why you should consider it `awesome`
+
+* UXfriendly implementation of dialog ensures that only one instance of it may be displayed at a time.
+  Meaning that as far as next dialogs will be implemented the same way, handling them will be highly
+  encapsulated and repetetive which makes it simple and time saving
+* stores singletons that with imports could well replace @inject decorator. They are also easy to test btw.
+* only client side code being able to auth to github with your username and password, in no persistive token saving and no-redirections manner
+* high MobX stores granulation and non-@action methods separation, that promotes separation of concerns, clarity, nice encapsulation and hence easy to understand, manage and extend
+* webpack lazy react components loading
+* high granulation level and clear concerns separation between directories/files and components
+* css modules
+* relative imports with webpack backed aliases 
+* no backend at all
 
 ##Enjoy and have fun out there! :)
