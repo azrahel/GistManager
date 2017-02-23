@@ -5,17 +5,10 @@ import * as GistSaveModes from 'constants/GistSaveModes'
 import Gist               from 'models/Gist'
 import mobx               from 'mobx'
 
+import * as testHelpers from 'helpers/test'
+
 import {fetchURLs} from 'helpers/gists'
 import * as Filters from 'constants/Filters'
-
-console.log('fetchURLs')
-console.log(fetchURLs)
-
-console.log('Filters')
-console.log(Filters)
-
-console.log('fetchURLs[Filters.ALL]')
-console.log(fetchURLs[Filters.ALL])
 
 fetchMock.get('*', {})
 fetchMock.post('*', {})
@@ -220,47 +213,6 @@ describe('- GistsStore ', () => {
     it('reset should set all non-function values to empty', () => {
       GistsStore.reset()
 
-      let isEmptyMobxArray = (toBeTested) => {
-        return  toBeTested &&
-                typeof mobx.toJS(toBeTested === 'object') &&
-                toBeTested.slice && 
-                toBeTested.slice().length === 0
-      }
-
-      let isEmptyObject = (toBeTested) => {
-        return  toBeTested &&
-                typeof toBeTested === 'object' && 
-                Object.keys(toBeTested).length === 0
-      }
-
-      let expectToFindNonFalsyValues = (container) => {
-        let containsTrue = []
-
-        for(var key in container) {
-          containsTrue.push(Boolean(container[key]))
-        }
-
-        expect(containsTrue.find(value => value)).to.be.true
-      }
-
-      let expectOnlyFlasyValues = (container) => {
-        let onlyFalsy = []
-
-        for(var key in container) {
-          if(isEmptyMobxArray(container[key])) {
-            onlyFalsy.push(false)
-          } else if(isEmptyObject(container[key])){
-            onlyFalsy.push(false)
-          } else {
-            onlyFalsy.push(Boolean(container[key]))
-          }
-        }
-
-        expect(onlyFalsy.find(value => value)).to.equal(undefined)
-        onlyFalsy.push(true)
-        expect(onlyFalsy.find(value => value)).to.equal(true)
-      }
-
       let description = 'something'
       let visibility = false
       let error = 'just an error'
@@ -280,17 +232,17 @@ describe('- GistsStore ', () => {
       GistsStore.setError(error)
       expect(GistsStore.error).to.equal(error)
 
-      expectToFindNonFalsyValues(GistsStore)
+      testHelpers.expectObjectToStoreNonFalsyValues(GistsStore)
       
       GistsStore.reset()
-      expectOnlyFlasyValues(GistsStore)
+      testHelpers.expectObjectToStoreOnlyFlasyValues(GistsStore)
 
       let unresetable = 'abc';
 
       GistsStore.unresetableValue = unresetable
       GistsStore.reset()
       expect(GistsStore.unresetableValue).to.equal(unresetable)
-      expectToFindNonFalsyValues(GistsStore)      
+      testHelpers.expectObjectToStoreNonFalsyValues(GistsStore)      
 
       delete GistsStore.unresetableValue;
     })
