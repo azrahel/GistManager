@@ -1,9 +1,9 @@
-### Gist manager
+# Gist manager
 
 Gist manager is simple frontend (served with webpck-dev-server) application trying to better utilise Github Gists API. Bare in mind - it is not fully functional Gists manager (lack of labels and stars management). But well, it s almost there.
 Feel free to add whatever you feel necessary though :].
 
-# Features
+## Features
 
 * Github Authentication
 * 3 column layout
@@ -12,7 +12,7 @@ Feel free to add whatever you feel necessary though :].
 * Viewing parcitular gist details
 * CRUD for gist (files CRUD included)
 
-# Installing and running
+## Installing and running
 
 To run project you have to:
 
@@ -20,7 +20,7 @@ To run project you have to:
 2. Install all npm dependencies (`npm install` in main directory of the app)
 3. Run project with `npm start`
  
-# Testing
+## Testing
 
 Currently all stores are being fully covered with unit tests.
 Test frameworks used are Mocha and Chai. 
@@ -29,9 +29,9 @@ To have whole app and all usecases covered integration and UItests should be imp
 
 To run tests do `npm test` in main directory of the app.
 
-# Technology stack
+## Technology stack
 
-## Front-end:
+### Front-end:
 
 * [Webpack](https://webpack.github.io/) to automize tasks and bundle modules, provide aliasses, CSSModules and much more
 * [Babel](https://babeljs.io/) so ES6, JSX and all the love can be used like no biggie
@@ -41,8 +41,8 @@ To run tests do `npm test` in main directory of the app.
 * [MaterialUI](http://www.material-ui.com/#/) not to invent wheel again (providing basic UI components)
 * [SASS](http://sass-lang.com/) as a styles preprocessor
 
-## Back-end:
+### Back-end:
 
 Well, there s kinda no back-end. Webpack-dev-server managing it all.
 
-#Enjoy and have fun out there! :)
+##Enjoy and have fun out there! :)
