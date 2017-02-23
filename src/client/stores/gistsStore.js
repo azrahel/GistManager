@@ -77,8 +77,11 @@ class GistsStore extends singleton {
   @action reset() {
     this.gists = []
     this.editedGist = null
+    this.filter = ''
+    this.activeGist = null
     this.isLoading = false
     this.gistDetailsLoading = false
+    this.error = ''
   }
 
   @action setError(value) {

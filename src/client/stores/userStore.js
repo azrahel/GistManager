@@ -21,6 +21,12 @@ class UserStore extends singleton {
   @action setField(name, value) {
     this[name] = value
   }
+
+  @action reset() {
+    this.password = ''
+    this.username = ''
+    this.token = ''
+  }
 }
 
 export default UserStore.get()

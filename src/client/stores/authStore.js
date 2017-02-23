@@ -45,6 +45,12 @@ class AuthStore extends singleton {
   @action setError(message) {
     this.error = message
   }
+
+  @action reset() {
+    this.isLogging = false
+    this.isLoggedIn = false
+    this.error = ''
+  }
 }
 
 export default AuthStore.get()

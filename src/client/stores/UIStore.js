@@ -21,6 +21,11 @@ class UIStore extends singleton {
   @action setField(name, value) {
     this[name] = value
   }
+
+  @action reset() {
+    this.dialog = null
+    this.dialogLoading = false
+  }
 }
 
 export default UIStore.get();
