@@ -51,8 +51,8 @@ Well, there s kinda no back-end. Webpack-dev-server managing it all.
   Meaning that as far as next dialogs will be implemented the same way, handling them will be highly
   encapsulated and repetetive which makes it simple and time saving
 * stores singletons that with imports could well replace @inject decorator. They are also easy to test btw.
-* only client side code being able to auth to github with your username and password, in no persistive token saving and no-redirections manner
-* high MobX stores granulation and non-@action methods separation, that promotes separation of concerns, clarity, nice encapsulation and hence easy to understand, manage and extend
+* only client side code being able to auth to github with your username and password, in no persistive-token-saving and no-redirections manner
+* high MobX stores granulation and non-@action methods separation, that promotes separation of concerns, clarity, nice encapsulation and hence easy to understand, manageble and extendable code
 * webpack lazy react components loading
 * high granulation level and clear concerns separation between directories/files and components
 * css modules
