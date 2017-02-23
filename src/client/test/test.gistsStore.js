@@ -3,6 +3,7 @@ import GistsStore         from 'stores/gistsStore'
 import { assert, expect } from 'chai'
 import * as GistSaveModes from 'constants/GistSaveModes'
 import Gist               from 'models/Gist'
+import mobx               from 'mobx'
 
 import {fetchURLs} from 'helpers/gists'
 import * as Filters from 'constants/Filters'
@@ -214,6 +215,84 @@ describe('- GistsStore ', () => {
       expect(GistsStore.gists.slice().length).to.equal(1)
       GistsStore.deleteGistFromStore(gistToBeEdited.id)
       expect(GistsStore.gists.slice().length).to.equal(0)
+    })
+
+    it('reset should set all non-function values to empty', () => {
+      GistsStore.reset()
+
+      let isEmptyMobxArray = (toBeTested) => {
+        return  toBeTested &&
+                typeof mobx.toJS(toBeTested === 'object') &&
+                toBeTested.slice && 
+                toBeTested.slice().length === 0
+      }
+
+      let isEmptyObject = (toBeTested) => {
+        return  toBeTested &&
+                typeof toBeTested === 'object' && 
+                Object.keys(toBeTested).length === 0
+      }
+
+      let expectToFindNonFalsyValues = (container) => {
+        let containsTrue = []
+
+        for(var key in container) {
+          containsTrue.push(Boolean(container[key]))
+        }
+
+        expect(containsTrue.find(value => value)).to.be.true
+      }
+
+      let expectOnlyFlasyValues = (container) => {
+        let onlyFalsy = []
+
+        for(var key in container) {
+          if(isEmptyMobxArray(container[key])) {
+            onlyFalsy.push(false)
+          } else if(isEmptyObject(container[key])){
+            onlyFalsy.push(false)
+          } else {
+            onlyFalsy.push(Boolean(container[key]))
+          }
+        }
+
+        expect(onlyFalsy.find(value => value)).to.equal(undefined)
+        onlyFalsy.push(true)
+        expect(onlyFalsy.find(value => value)).to.equal(true)
+      }
+
+      let description = 'something'
+      let visibility = false
+      let error = 'just an error'
+      let rawGist = {
+        id: '1',
+        description: description,
+        files: [{1: 'a'}, {2: 'b'}],
+        public: visibility
+      }
+
+      let gistToBeEdited = new Gist(rawGist)
+
+      expect(GistsStore.gists.slice()).to.be.empty
+      GistsStore.addGist(gistToBeEdited)
+      expect(GistsStore.gists.slice().length).to.equal(1)
+
+      GistsStore.setError(error)
+      expect(GistsStore.error).to.equal(error)
+
+      expectToFindNonFalsyValues(GistsStore)
+      
+      GistsStore.reset()
+      expectOnlyFlasyValues(GistsStore)
+
+      let unresetable = 'abc';
+
+      GistsStore.unresetableValue = unresetable
+      GistsStore.reset()
+      expect(GistsStore.unresetableValue).to.equal(unresetable)
+      expectToFindNonFalsyValues(GistsStore)      
+
+      delete GistsStore.unresetableValue;
     })
   })
 })
