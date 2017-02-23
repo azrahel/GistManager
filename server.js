@@ -31,8 +31,6 @@ var server = app.listen(3001, 'localhost', function(){
     console.log('Server app listening at http://%s:%s', host, port);
 });
 
-//webpack dev server configuration below
-
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,

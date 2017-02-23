@@ -18,8 +18,11 @@
     "reload",
     "hmr",
     "live",
-    "edit",
     "webpack",
+    "gist",
+    "gistmanager",
+    "gist_manager",
+    "gist manager",
     "mobx"
   ],
   "author": "Tom Morawski <t.p.morawski@gmail.com> (http://github.com/azrahel)",

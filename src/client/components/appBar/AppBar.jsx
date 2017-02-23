@@ -21,7 +21,7 @@ export default @inject('userStore','authStore') @observer class AppBar extends C
       this.props.authStore.isLoggedIn 
         ? <div className = { style.appBar }>
             <span className = { style.appName }>
-              Super Gist Manager
+              Gist Manager
             </span>
             <FlatButton
               label = 'sign out'
