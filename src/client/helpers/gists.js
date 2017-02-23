@@ -4,7 +4,7 @@ import * as GistSaveModes from 'constants/GistSaveModes'
 import * as Filters from 'constants/Filters'
 import { getRequestConfig, fetchData } from 'helpers/request'
 
-const fetchURLs = {
+export const fetchURLs = {
   [Filters.ALL]: 'https://api.github.com/gists',
   [Filters.STARRED]: 'https://api.github.com/gists/starred'
 }
@@ -61,7 +61,7 @@ export function saveGist() {
   }
 
   const requestConfig = getRequestConfig(
-    GistsStore.saveRequestModes[GistsStore.gistSaveMode],
+    saveRequestModes[GistsStore.gistSaveMode],
     'token ' + UserStore.token,
     JSON.stringify(
       GistsStore.editedGist.getPostable()

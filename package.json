@@ -41,6 +41,7 @@
     "enzyme": "^2.7.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
+    "fetch-mock": "^5.9.4",
     "mobx-react-devtools": "^4.2.11",
     "mocha": "^3.2.0",
     "mocha-webpack": "^1.0.0-beta.1",

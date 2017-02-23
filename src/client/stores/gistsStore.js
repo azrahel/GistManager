@@ -22,8 +22,9 @@ class GistsStore extends singleton {
   constructor() {
     super()
 
-    this.gists = []
+    this.gists  = []
     this.filter = ''
+    this.error  = ''
 
     autorun(() => {
       if(this.filter !== '') {
@@ -82,6 +83,7 @@ class GistsStore extends singleton {
     this.isLoading = false
     this.gistDetailsLoading = false
     this.error = ''
+    this.gistSaveMode = null
   }
 
   @action setError(value) {
